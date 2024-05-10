@@ -5,8 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HairSaloon"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="500">
     <Grid>
 
+        <UniformGrid Rows="4">
+            <Button x:Name="HumanButton" 
+            FontWeight="Bold"
+            Content="Люди"
+            Margin="5"
+            Click="Human_Click"/>
+
+            <Button x:Name="EmployeeButton" 
+            FontWeight="Bold"
+            Content="Сотрудники"
+            Margin="5"/>
+
+            <Button x:Name="ServiceButton" 
+            FontWeight="Bold"
+            Content="Услуги"
+            Margin="5"/>
+
+            <Button x:Name="OrderButton" 
+            FontWeight="Bold"
+            Content="Заказы"
+            Margin="5"/>
+        </UniformGrid>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using HairSaloon.Pages;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,15 @@ namespace HairSaloon
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Human_Click(object sender, RoutedEventArgs e)
+        {
+           HumanWindow humanWindow = new HumanWindow();
+            this.Close();
+            humanWindow.Show();
+
+            
         }
     }
 }

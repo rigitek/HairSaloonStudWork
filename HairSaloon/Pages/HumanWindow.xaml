@@ -1,0 +1,40 @@
+﻿<Window x:Class="HairSaloon.Pages.HumanWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HairSaloon.Pages"
+        mc:Ignorable="d"
+        Title="HumanWindow" Height="600" Width="500">
+
+    <Grid Margin="10">
+        <TextBlock Text="Люди" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+        <DockPanel Margin="0 0 0 35" LastChildFill="True" VerticalAlignment="Bottom">
+            
+            <UniformGrid Columns="3">
+
+                <Button x:Name="AddButton"  Margin="0 0 5 0" Height="30" Content="Добавить"  />
+                <Button x:Name="EditButton"  Height="30" Content="Изменить"  />
+                <Button x:Name="DeleteBurron"  Margin="5 0 0 0"  Height="30" Content="Удалить"  />
+            </UniformGrid>
+        </DockPanel>
+
+        <ListView x:Name="humansList" Margin="0 40 0 70">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="Имя"/>
+                        <TextBlock Text="{Binding FirstName}"  FontSize="26" />
+                        <TextBlock Text="Фамилия"/>
+                        <TextBlock Text="{Binding LastName}"  FontSize="26" />
+                        <TextBlock Text="Номер телефона"/>
+                        <TextBlock Text="{Binding PhoneNumber}"  FontSize="26" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Content="Назад" Click="Back_Click" Height="30" VerticalAlignment="Bottom"/>
+
+    </Grid>
+</Window>
