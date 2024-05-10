@@ -24,11 +24,30 @@ namespace HairSaloon
 
         private void Human_Click(object sender, RoutedEventArgs e)
         {
-           HumanWindow humanWindow = new HumanWindow();
+            HumanWindow humanWindow = new HumanWindow();
             this.Close();
             humanWindow.Show();
+        }
 
-            
+        private void Order_Click(object sender, RoutedEventArgs e)
+        {
+            OrderWindow orderWindow = new OrderWindow();
+            this.Close();
+            orderWindow.Show();
+        }
+
+        private void Service_Click(object sender, RoutedEventArgs e)
+        {
+            ServiceWindow serviceWindow = new ServiceWindow();
+            this.Close();
+            serviceWindow.Show();
+        }
+
+        private void Employee_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeWindow employeeWindow = new EmployeeWindow();
+            this.Close();
+            employeeWindow.Show();
         }
     }
 }
