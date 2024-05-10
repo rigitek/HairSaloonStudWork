@@ -13,14 +13,14 @@
             
             <UniformGrid Columns="3">
 
-                <Button x:Name="AddButton"  Margin="0 0 5 0" Height="30" Content="Добавить"  />
-                <Button x:Name="EditButton"  Height="30" Content="Изменить"  />
-                <Button x:Name="DeleteBurron"  Margin="5 0 0 0"  Height="30" Content="Удалить"  />
+                <Button x:Name="AddButton"  Margin="0 0 5 0" Height="30" Content="Добавить" Click="Add_Click" />
+                <Button x:Name="EditButton"  Height="30" Content="Изменить" Click="Edit_Click" />
+                <Button x:Name="DeleteBurron"  Margin="5 0 0 0"  Height="30" Content="Удалить" Click="Delete_Click"  />
             </UniformGrid>
         </DockPanel>
 
-        <ListView x:Name="humansList" Margin="0 40 0 70">
-            <ListView.ItemTemplate>
+        <ListBox x:Name="humansList" ItemsSource="{Binding}" Margin="0 40 0 70">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
                         <TextBlock Text="Имя"/>
@@ -31,8 +31,8 @@
                         <TextBlock Text="{Binding PhoneNumber}"  FontSize="26" />
                     </StackPanel>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <Button Content="Назад" Click="Back_Click" Height="30" VerticalAlignment="Bottom"/>
 

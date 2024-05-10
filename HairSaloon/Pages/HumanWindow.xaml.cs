@@ -1,6 +1,9 @@
-﻿using System;
+﻿using HairSaloon.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,9 +22,72 @@ namespace HairSaloon.Pages
     /// </summary>
     public partial class HumanWindow : Window
     {
+        HairSaloonContext db = new HairSaloonContext();
+
         public HumanWindow()
         {
             InitializeComponent();
+            this.Loaded += HumanWindow_Loaded;
+
+        }
+
+        private void HumanWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+            db.Humans.Load();
+            DataContext = db.Humans.Local.ToObservableCollection();
+
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            AddHumanWindow AddHumanWindow = new AddHumanWindow(new Human());
+            
+            if (AddHumanWindow.ShowDialog() == true)
+            {
+                Human Human = AddHumanWindow.Human;
+                db.Humans.Add(Human);
+                db.SaveChanges();
+            }
+        }
+
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            Human? human = humansList.SelectedItem as Human;
+            if (human is null) return;
+
+            AddHumanWindow AddHumanWindow = new AddHumanWindow(new Human
+            {
+                Id = human.Id,
+                FirstName=human.FirstName,
+                LastName=human.LastName,
+                PhoneNumber=human.PhoneNumber
+            }) ;
+
+
+            if (AddHumanWindow.ShowDialog() == true)
+            {
+                // получаем измененный объект
+                human = db.Humans.Find(AddHumanWindow.Human.Id);
+                if (human != null)
+                {
+                    human.FirstName = AddHumanWindow.Human.FirstName;
+                    human.LastName = AddHumanWindow.Human.LastName;
+                    human.PhoneNumber = AddHumanWindow.Human.PhoneNumber;
+                    db.SaveChanges();
+                    humansList.Items.Refresh();
+                }
+            }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            // получаем выделенный объект
+            Human? human= humansList.SelectedItem as Human;
+            // если ни одного объекта не выделено, выходим
+            if (human is null) return;
+            db.Humans.Remove(human);
+            db.SaveChanges();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

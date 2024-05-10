@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HairSaloon.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,17 @@ namespace HairSaloon.Pages
     /// </summary>
     public partial class AddHumanWindow : Window
     {
-        public AddHumanWindow()
+        public Human Human { get; set; }
+        public AddHumanWindow(Human human)
         {
             InitializeComponent();
+            Human= human;
+            DataContext = Human;
+        }
+
+        void Accept_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
         }
     }
 }

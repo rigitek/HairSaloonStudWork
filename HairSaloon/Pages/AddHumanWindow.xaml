@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HairSaloon.Pages"
         mc:Ignorable="d"
-        Title="AddHumanWindow" Height="450" Width="800">
+        Title="AddHumanWindow" Height="200" Width="300">
     <Grid>
-        
+        <StackPanel Margin="10">
+            <TextBlock Text = "Добавление человека" />
+            <TextBlock>Имя</TextBlock>
+            <TextBox Text="{Binding FirstName}" />
+            <TextBlock>Фамилия</TextBlock>
+            <TextBox Text="{Binding LastName}" />
+            <TextBlock>Номер телефона</TextBlock>
+            <TextBox Text="{Binding PhoneNumber}" />
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 10">
+                <Button IsDefault="True" Content="Сохранить"  Margin="0 0 10 0" Click="Accept_Click"/>
+                <Button IsCancel="True" Content="Отмена"  />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
