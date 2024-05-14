@@ -1,0 +1,25 @@
+﻿<Window x:Class="HairSaloon.Pages.AddEmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HairSaloon.Pages"
+        mc:Ignorable="d"
+        Title="AddEmployeeWindow" Height="250" Width="300">
+    <Grid>
+        <TextBlock Text="Добавить сотрудника" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+        <StackPanel Margin="10 20 10 10">
+            <ComboBox x:Name="humansComboBox" SelectedValuePath="Id">
+               
+            </ComboBox>
+            <CheckBox Margin="5" IsChecked="{Binding WomenHaircut}">Мастер по женским стрижкам</CheckBox>
+            <CheckBox Margin="5" IsChecked="{Binding ManHaircut}">Мастер по мужским стрижкам</CheckBox>
+            <CheckBox Margin="5" IsChecked="{Binding Admin}">Администратор</CheckBox>
+            
+            <StackPanel Orientation="Horizontal" Margin="5 10 0 10">
+                <Button IsDefault="True" Content="Сохранить"  Margin="0 0 10 0" Click="Accept_Click"/>
+                <Button IsCancel="True" Content="Отмена"  />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

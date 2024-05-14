@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HairSaloon.Pages"
         mc:Ignorable="d"
-        Title="AddHumanWindow" Height="200" Width="300">
+        Title="AddHumanWindow" Height="250" Width="300">
     <Grid>
         <StackPanel Margin="10">
             <TextBlock Text = "Добавление человека" />

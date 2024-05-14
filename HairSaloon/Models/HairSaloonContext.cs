@@ -16,7 +16,7 @@ namespace HairSaloon.Models
 
         public HairSaloonContext()
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
