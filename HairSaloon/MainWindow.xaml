@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HairSaloon"
         mc:Ignorable="d"
         Title="MainWindow" Height="400" Width="400">
-    <Grid>
+    <Grid Margin="20">
 
         <UniformGrid Rows="4">
             <Button x:Name="HumanButton" 
@@ -29,7 +29,7 @@
 
             <Button x:Name="OrderButton" 
             FontWeight="Bold"
-            Content="Заказы"
+            Content="Записи"
             Margin="5"
                     Click="Order_Click"/>
         </UniformGrid>

@@ -14,6 +14,6 @@ namespace HairSaloon.Models
         public bool Admin { get; set; }
 
 
-        public Human? Human{ get; set; }
+        public Human Human{ get; set; }
     }
 }

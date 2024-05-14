@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +25,9 @@ namespace HairSaloon.Pages
     public partial class EmployeeWindow : Window
     {
         HairSaloonContext db = new HairSaloonContext();
+
+        //List<Employee> employees;
+
         public EmployeeWindow()
         {
             InitializeComponent();
@@ -31,50 +36,65 @@ namespace HairSaloon.Pages
 
         private void EmployeeWindow_Loaded(object sender, RoutedEventArgs e)
         {
-
+            db.Humans.Load();
             db.Employees.Load();
-            DataContext = db.Humans.Local.ToObservableCollection();
-
+            DataContext = db.Employees.Local.ToObservableCollection();
+           //employeesList.ItemsSource = db.Employees;
+          
+            //employees = db.Employees.ToList();
+           // employeesList.ItemsSource= employees;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            
-            AddEmployeeWindow AddEmployeeWindow = new AddEmployeeWindow(new Employee());
 
+            //AddEmployeeWindow AddEmployeeWindow = new AddEmployeeWindow(new Employee());
+
+            AddEmployeeWindow AddEmployeeWindow = new AddEmployeeWindow();
             if (AddEmployeeWindow.ShowDialog() == true)
             {
-                Employee Employee = AddEmployeeWindow.Employee;
-                db.Employees.Add(Employee);
-                db.SaveChanges();
+                db.Employees.Load();
+
             }
+
+            //if (AddEmployeeWindow.ShowDialog() == true)
+            //{
+
+            //    db.Humans.Load();
+            //    Employee Employee = AddEmployeeWindow.Employee;
+            //    db.Humans.Attach(Employee.Human);
+            //    db.Employees.Add(Employee);
+            //    db.SaveChanges();
+            //}
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            Human? human = humansList.SelectedItem as Human;
-            if (human is null) return;
+            Employee? employee = employeesList.SelectedItem as Employee;
+            if (employee is null) return;
 
-            AddHumanWindow AddHumanWindow = new AddHumanWindow(new Human
+            AddEmployeeWindow AddEmployeeWindow = new AddEmployeeWindow(new Employee
             {
-                Id = human.Id,
-                FirstName = human.FirstName,
-                LastName = human.LastName,
-                PhoneNumber = human.PhoneNumber
+                Id = employee.Id,
+                WomenHaircut = employee.WomenHaircut,
+                ManHaircut = employee.ManHaircut,
+                Admin = employee.Admin,
+                Human = employee.Human
             });
 
 
-            if (AddHumanWindow.ShowDialog() == true)
+            if (AddEmployeeWindow.ShowDialog() == true)
             {
                 // получаем измененный объект
-                human = db.Humans.Find(AddHumanWindow.Human.Id);
-                if (human != null)
+                employee = db.Employees.Find(AddEmployeeWindow.Employee.Id);
+                if (employee != null)
                 {
-                    human.FirstName = AddHumanWindow.Human.FirstName;
-                    human.LastName = AddHumanWindow.Human.LastName;
-                    human.PhoneNumber = AddHumanWindow.Human.PhoneNumber;
+                    employee.WomenHaircut = AddEmployeeWindow.Employee.WomenHaircut;
+                    employee.ManHaircut = AddEmployeeWindow.Employee.ManHaircut;
+                    employee.Admin = AddEmployeeWindow.Employee.Admin;
+                    
                     db.SaveChanges();
-                    humansList.Items.Refresh();
+                    employeesList.Items.Refresh();
                 }
             }
         }
@@ -82,10 +102,10 @@ namespace HairSaloon.Pages
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             // получаем выделенный объект
-            Human? human = humansList.SelectedItem as Human;
+            Employee? employee = employeesList.SelectedItem as Employee;
             // если ни одного объекта не выделено, выходим
-            if (human is null) return;
-            db.Humans.Remove(human);
+            if (employee is null) return;
+            db.Employees.Remove(employee);
             db.SaveChanges();
         }
 

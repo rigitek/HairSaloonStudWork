@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,17 +17,16 @@ using System.Windows.Shapes;
 namespace HairSaloon.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для AddHumanWindow.xaml
+    /// Логика взаимодействия для AddServiceWindow.xaml
     /// </summary>
-    public partial class AddHumanWindow : Window
+    public partial class AddServiceWindow : Window
     {
-        public Human Human { get; set; }
-        public AddHumanWindow(Human human)
+        public Service Service;
+        public AddServiceWindow(Service service)
         {
             InitializeComponent();
-            
-            Human= human;
-            DataContext = Human;
+            Service = service;
+            DataContext = Service;
         }
 
         void Accept_Click(object sender, RoutedEventArgs e)

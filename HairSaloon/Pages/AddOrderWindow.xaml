@@ -1,0 +1,33 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HairSaloon.Pages"
+        xmlns:Models="clr-namespace:HairSaloon.Models" x:Class="HairSaloon.Pages.AddOrderWindow"
+        mc:Ignorable="d"
+        Title="AddOrderWindow" Height="400" Width="300">
+    <Grid>
+        <TextBlock Text="Новая заявка" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+        <StackPanel Margin="10 20 10 10">
+            <TextBlock Text="Клиент"/>
+            <ComboBox Margin="0 0 0 5" x:Name="humansComboBox" SelectedItem="{Binding Human}"/>
+            <TextBlock Text="Сотрудник"/>
+            <ComboBox Margin="0 0 0 5" x:Name="employeeComboBox" SelectedItem="{Binding Employee}"/>
+            <TextBlock Text="Услуга"/>
+            <ComboBox Margin="0 0 0 5" x:Name="serviceComboBox" SelectedItem="{Binding Service}"/>
+            <TextBlock Text="Дата"/>
+            <DatePicker x:Name="Date" Margin="0 0 0 5" />
+            <TextBlock Text="Время"/>
+            <TextBox  x:Name="Time"  Margin="0 0 0 5" Text="{Binding ManHaircut}" />
+
+            <CheckBox x:Name="WashHair" Margin="0 0 0 5" IsChecked="{Binding Admin}" Content="Мытье головы"/>
+            <TextBlock Text="Состояние"/>
+            <ComboBox Margin="0 0 0 5" x:Name="stateComboBox" SelectedItem="{Binding Human}"/>
+            <StackPanel Orientation="Horizontal" Margin="5 10 0 10">
+                <Button IsDefault="True" Content="Сохранить"  Margin="0 0 10 0" Click="Accept_Click"/>
+                <Button IsCancel="True" Content="Отмена"  />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

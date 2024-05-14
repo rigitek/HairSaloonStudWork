@@ -3,18 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HairSaloon.Pages"
+        xmlns:local="clr-namespace:HairSaloon.Models"
         mc:Ignorable="d"
         Title="AddEmployeeWindow" Height="250" Width="300">
     <Grid>
-        <TextBlock Text="Добавить сотрудника" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+        <TextBlock Text="Добавление сотрудника" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
         <StackPanel Margin="10 20 10 10">
-            <ComboBox x:Name="humansComboBox" SelectedValuePath="Id">
+            
+            <ComboBox  x:Name="humansComboBox" SelectedItem="{Binding Human}">
                
             </ComboBox>
-            <CheckBox Margin="5" IsChecked="{Binding WomenHaircut}">Мастер по женским стрижкам</CheckBox>
-            <CheckBox Margin="5" IsChecked="{Binding ManHaircut}">Мастер по мужским стрижкам</CheckBox>
-            <CheckBox Margin="5" IsChecked="{Binding Admin}">Администратор</CheckBox>
+            <CheckBox x:Name="Women" Margin="5" IsChecked="{Binding WomenHaircut}" >Мастер по женским стрижкам</CheckBox>
+            <CheckBox x:Name="Man" Margin="5" IsChecked="{Binding ManHaircut}" >Мастер по мужским стрижкам</CheckBox>
+            <CheckBox x:Name="Admin" Margin="5" IsChecked="{Binding Admin}">Администратор</CheckBox>
             
             <StackPanel Orientation="Horizontal" Margin="5 10 0 10">
                 <Button IsDefault="True" Content="Сохранить"  Margin="0 0 10 0" Click="Accept_Click"/>

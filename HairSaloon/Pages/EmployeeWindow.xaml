@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HairSaloon.Pages"
+        xmlns:local="clr-namespace:HairSaloon.Models"
         mc:Ignorable="d"
         Title="EmployeeWindow" Height="600" Width="500">
     <Grid Margin="10">
@@ -18,22 +18,27 @@
             </UniformGrid>
         </DockPanel>
 
-        <ListBox x:Name="humansList" ItemsSource="{Binding}" Margin="0 40 0 70">
+        <ListBox x:Name="employeesList"  ItemsSource="{Binding}" Margin="0 40 0 70">
             <ListBox.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate DataType="local:Human">
+
                     <StackPanel>
+                        
                         <TextBlock FontSize="20" >
                         <Run Text="Имя: " />
-                        <Run Text="{Binding FirstName}"  />
+                        <Run Text="{Binding Human.FirstName}"  />
                         </TextBlock>
                         <TextBlock FontSize="20">
                         <Run Text="Фамилия: " />
-                        <Run Text="{Binding LastName}" />
+                        <Run Text="{Binding Human.LastName}" />
                         </TextBlock>
                         <TextBlock FontSize="20">
                         <Run Text="Номер телефона: " />
-                        <Run Text="{Binding PhoneNumber}" />
+                        <Run Text="{Binding Human.PhoneNumber}" />
                         </TextBlock>
+                        <CheckBox Margin="5" IsEnabled="False" IsChecked="{Binding WomenHaircut}">Мастер по женским стрижкам</CheckBox>
+                        <CheckBox Margin="5" IsEnabled="False" IsChecked="{Binding ManHaircut }">Мастер по мужским стрижкам</CheckBox>
+                        <CheckBox  Margin="5" IsEnabled="False" IsChecked="{Binding Admin}">Администратор</CheckBox>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

@@ -23,7 +23,7 @@ namespace HairSaloon.Pages
     public partial class HumanWindow : Window
     {
         HairSaloonContext db = new HairSaloonContext();
-
+        
         public HumanWindow()
         {
             InitializeComponent();
@@ -36,13 +36,14 @@ namespace HairSaloon.Pages
             
             db.Humans.Load();
             DataContext = db.Humans.Local.ToObservableCollection();
-
+            
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             AddHumanWindow AddHumanWindow = new AddHumanWindow(new Human());
-            
+
+            //AddHumanWindow.Show();
             if (AddHumanWindow.ShowDialog() == true)
             {
                 Human Human = AddHumanWindow.Human;

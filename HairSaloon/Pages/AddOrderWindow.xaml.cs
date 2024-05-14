@@ -1,9 +1,7 @@
 ﻿using HairSaloon.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,31 +12,32 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace HairSaloon.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для AddEmployeeWindow.xaml
+    /// Логика взаимодействия для AddOrderWindow.xaml
     /// </summary>
-    public partial class AddEmployeeWindow : Window
+    public partial class AddOrderWindow : Window
     {
         HairSaloonContext db = new HairSaloonContext();
         List<Human> humans;
-        public Employee Employee { get; set; }
+        List<Employee> employees;
+        List<Service> services;
+        public Order Order { get; set; }
 
-        public AddEmployeeWindow(Employee employee)
+        public AddOrderWindow(Order order)
         {
             InitializeComponent();
             this.Loaded += AddEmployeeWindow_Loaded;
-           
-            Employee = employee;
-            humansComboBox.SelectedIndex = Employee.Human.Id-1;
+
+            Order = order;
+            humansComboBox.SelectedIndex = Employee.Human.Id - 1;
             humansComboBox.IsEnabled = false;
-            DataContext = Employee;
+            DataContext = Order;
         }
 
-        public AddEmployeeWindow()
+        public AddOrderWindow()
         {
             InitializeComponent();
             this.Loaded += AddEmployeeWindow_Loaded;
@@ -48,7 +47,7 @@ namespace HairSaloon.Pages
         {
             db.Humans.Load();
             humans = db.Humans.ToList();
-            humansComboBox.ItemsSource= humans;
+            humansComboBox.ItemsSource = humans;
         }
 
         void Accept_Click(object sender, RoutedEventArgs e)
