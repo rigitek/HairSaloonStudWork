@@ -15,5 +15,7 @@ namespace HairSaloon.Models
 
 
         public Human Human{ get; set; }
+
+        public override string ToString() => $"{Human.FirstName} {Human.LastName}";
     }
 }

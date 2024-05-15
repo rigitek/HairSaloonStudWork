@@ -1,4 +1,5 @@
 ﻿using HairSaloon.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +32,18 @@ namespace HairSaloon.Pages
             InitializeComponent();
             this.Loaded += AddEmployeeWindow_Loaded;
 
+            Title.Text = "Изменение заявки";
+
             Order = order;
-            humansComboBox.SelectedIndex = Employee.Human.Id - 1;
+
+            employeesComboBox.SelectedIndex = Order.Employee.Id - 1;
+            humansComboBox.SelectedIndex = Order.Human.Id-1;
+            servicesComboBox.SelectedIndex = Order.Service.Id - 1;
+
             humansComboBox.IsEnabled = false;
+            employeesComboBox.IsEnabled = false;
+            servicesComboBox.IsEnabled = false;
+
             DataContext = Order;
         }
 
@@ -41,34 +51,55 @@ namespace HairSaloon.Pages
         {
             InitializeComponent();
             this.Loaded += AddEmployeeWindow_Loaded;
+
+            Title.Text = "Новая заявка";
         }
 
         private void AddEmployeeWindow_Loaded(object sender, RoutedEventArgs e)
         {
             db.Humans.Load();
+            db.Employees.Load();
+            db.Services.Load();
+
             humans = db.Humans.ToList();
+            employees = db.Employees.ToList();
+            services = db.Services.ToList();
+
             humansComboBox.ItemsSource = humans;
+            employeesComboBox.ItemsSource = employees;
+            servicesComboBox.ItemsSource = services;
+
         }
 
         void Accept_Click(object sender, RoutedEventArgs e)
         {
-            if (Employee != null) DialogResult = true;
+            if (Order != null) DialogResult = true;
             else
             {
                 Human human = humansComboBox.SelectedItem as Human;
+                Employee employee = employeesComboBox.SelectedItem as Employee;
+                Service service = servicesComboBox.SelectedItem as Service;
+               
 
                 if (human == null) return;
+                if (employee == null) return;
+                if (service == null) return;
 
-                Employee employee = new Employee
+                Order order= new Order
                 {
-                    WomenHaircut = Women.IsChecked.Value,
-                    ManHaircut = Man.IsChecked.Value,
-                    Admin = Admin.IsChecked.Value,
-                    Human = human
+                    Date = Date.SelectedDate.Value,
+                    Time = TimeBox.Text,
+                    WashHair = WashHair.IsChecked.Value,
+                    State= false,
+                    Human = human,
+                    Employee=employee,
+                    Service=service
                 };
 
                 db.Humans.Attach(human);
-                db.Employees.Add(employee);
+                db.Employees.Attach(employee);
+                db.Services.Attach(service);
+                db.Orders.Add(order);
                 db.SaveChanges();
 
                 DialogResult = true;

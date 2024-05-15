@@ -27,6 +27,8 @@ namespace HairSaloon.Pages
         {
             InitializeComponent();
             this.Loaded += OrderWindow_Loaded;
+
+            
         }
 
         private void OrderWindow_Loaded(object sender, RoutedEventArgs e)
@@ -36,6 +38,24 @@ namespace HairSaloon.Pages
             db.Services.Load();
             db.Orders.Load();
             DataContext = db.Orders.Local.ToObservableCollection();
+
+
+        }
+
+        private void Complete_Changed(object sender, RoutedEventArgs e)
+        {
+            if (Complete.SelectedIndex == 0)
+            {
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == true);
+            }
+            if (Complete.SelectedIndex == 1)
+            {
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == false);
+            }
+            if (Complete.SelectedIndex == 2)
+            {
+                DataContext = db.Orders.Local.ToObservableCollection();
+            }
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -44,7 +64,8 @@ namespace HairSaloon.Pages
             if (AddOrderWindow.ShowDialog() == true)
             {
                 db.Orders.Load();
-
+                
+                
             }
         }
 
@@ -76,13 +97,13 @@ namespace HairSaloon.Pages
                     order.Time = AddOrderWindow.Order.Time;
                     order.WashHair = AddOrderWindow.Order.WashHair;
                     order.State = AddOrderWindow.Order.State;
-                    order.Service = AddOrderWindow.Order.Service;
-                    order.Human = AddOrderWindow.Order.Human;
-                    order.Employee = AddOrderWindow.Order.Employee;
+                    
 
                     db.SaveChanges();
                     ordersList.Items.Refresh();
+                   
                 }
+                
             }
         }
 

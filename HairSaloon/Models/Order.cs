@@ -10,9 +10,9 @@ namespace HairSaloon.Models
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public DateTime Time { get; set; }
+        public string Time { get; set; }
         public bool WashHair { get; set; }
-        public string State { get; set; }
+        public bool State { get; set; }
 
         public Service? Service { get; set; }
         public Human? Human { get; set; }
