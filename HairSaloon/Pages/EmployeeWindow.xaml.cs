@@ -39,10 +39,11 @@ namespace HairSaloon.Pages
             db.Humans.Load();
             db.Employees.Load();
             DataContext = db.Employees.Local.ToObservableCollection();
-           //employeesList.ItemsSource = db.Employees;
-          
+            //employeesList.ItemsSource = db.Employees;
+
             //employees = db.Employees.ToList();
-           // employeesList.ItemsSource= employees;
+            // employeesList.ItemsSource= employees;
+            CheckEmployee();
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -54,7 +55,7 @@ namespace HairSaloon.Pages
             if (AddEmployeeWindow.ShowDialog() == true)
             {
                 db.Employees.Load();
-
+                CheckEmployee();
             }
 
             //if (AddEmployeeWindow.ShowDialog() == true)
@@ -107,6 +108,8 @@ namespace HairSaloon.Pages
             if (employee is null) return;
             db.Employees.Remove(employee);
             db.SaveChanges();
+
+            CheckEmployee();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -114,6 +117,11 @@ namespace HairSaloon.Pages
             MainWindow mainWindow = new MainWindow();
             this.Close();
             mainWindow.Show();
+        }
+
+        private void CheckEmployee()
+        {
+            if(db.Humans.Count()==db.Employees.Count()) AddButton.IsEnabled = false;
         }
     }
 }

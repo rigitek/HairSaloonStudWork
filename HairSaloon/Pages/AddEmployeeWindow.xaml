@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HairSaloon.Models"
         mc:Ignorable="d"
-        Title="AddEmployeeWindow" Height="250" Width="300">
+        Title="AddEmployeeWindow" SizeToContent="WidthAndHeight" MinWidth="200">
     <Grid>
         <TextBlock Text="Добавление сотрудника" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
         <StackPanel Margin="10 20 10 10">
@@ -16,11 +16,15 @@
             <CheckBox x:Name="Women" Margin="5" IsChecked="{Binding WomenHaircut}" >Мастер по женским стрижкам</CheckBox>
             <CheckBox x:Name="Man" Margin="5" IsChecked="{Binding ManHaircut}" >Мастер по мужским стрижкам</CheckBox>
             <CheckBox x:Name="Admin" Margin="5" IsChecked="{Binding Admin}">Администратор</CheckBox>
-            
-            <StackPanel Orientation="Horizontal" Margin="5 10 0 10">
-                <Button IsDefault="True" Content="Сохранить"  Margin="0 0 10 0" Click="Accept_Click"/>
-                <Button IsCancel="True" Content="Отмена"  />
-            </StackPanel>
+
+            <DockPanel  LastChildFill="True" VerticalAlignment="Bottom">
+
+                <UniformGrid Columns="2">
+
+                    <Button IsDefault="True" Content="Сохранить"  Margin="0 0 10 0" Click="Accept_Click"/>
+                    <Button IsCancel="True" Content="Отмена"  />
+                </UniformGrid>
+            </DockPanel>
         </StackPanel>
     </Grid>
 </Window>

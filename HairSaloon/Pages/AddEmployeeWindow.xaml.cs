@@ -25,6 +25,7 @@ namespace HairSaloon.Pages
     {
         HairSaloonContext db = new HairSaloonContext();
         List<Human> humans;
+        List<Employee> employees;
         public Employee Employee { get; set; }
 
         public AddEmployeeWindow(Employee employee)
@@ -47,6 +48,9 @@ namespace HairSaloon.Pages
         private void AddEmployeeWindow_Loaded(object sender, RoutedEventArgs e)
         {
             db.Humans.Load();
+            db.Employees.Load();
+            
+            
             humans = db.Humans.ToList();
             humansComboBox.ItemsSource= humans;
         }

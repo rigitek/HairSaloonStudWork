@@ -39,21 +39,22 @@
                             <Run Text="Время:" />
                             <Run Text="{Binding Time}" />
                         </TextBlock>
-                        <CheckBox IsEnabled="False" IsChecked="{Binding WashHair}" Content="Мытье головы: "/>
-                        <TextBlock  >
-                            <Run Text="Клиент:" />
-                            <Run Text="{Binding Human.FirstName}"  />
-                            <Run Text="{Binding Human.LastName}"  />
-                        </TextBlock>
                         <TextBlock  >
                             <Run Text="Мастер: " />
                             <Run Text="{Binding Employee.Human.FirstName}"  />
                             <Run Text="{Binding Employee.Human.LastName}"  />
                         </TextBlock>
                         <TextBlock  >
+                            <Run Text="Клиент:" />
+                            <Run Text="{Binding Human.FirstName}"  />
+                            <Run Text="{Binding Human.LastName}"  />
+                        </TextBlock>
+                        
+                        <TextBlock  >
                             <Run Text="Услуга:" />
                             <Run Text="{Binding Service.Title}"  />
                         </TextBlock>
+                        <CheckBox IsEnabled="False" IsChecked="{Binding WashHair}" Content="Мытье головы: "/>
                         <TextBlock  >
                             <Run Text="Стоимость:" />
                             <Run Text="{Binding Service.Price}"  />

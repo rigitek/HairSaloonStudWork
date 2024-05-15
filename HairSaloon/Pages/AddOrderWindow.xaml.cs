@@ -32,7 +32,7 @@ namespace HairSaloon.Pages
             InitializeComponent();
             this.Loaded += AddEmployeeWindow_Loaded;
 
-            Title.Text = "Изменение заявки";
+            TitleName.Text = "Изменение заявки";
 
             Order = order;
 
@@ -52,7 +52,8 @@ namespace HairSaloon.Pages
             InitializeComponent();
             this.Loaded += AddEmployeeWindow_Loaded;
 
-            Title.Text = "Новая заявка";
+            TitleName.Text = "Новая заявка";
+            State.IsEnabled = false;
         }
 
         private void AddEmployeeWindow_Loaded(object sender, RoutedEventArgs e)

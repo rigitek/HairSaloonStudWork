@@ -14,8 +14,30 @@ namespace HairSaloon.Models
         public bool Admin { get; set; }
 
 
-        public Human Human{ get; set; }
+        public Human Human { get; set; }
 
-        public override string ToString() => $"{Human.FirstName} {Human.LastName}";
+        public override string ToString()
+        {
+            string Master = "";
+
+            if (WomenHaircut == true && ManHaircut == true)
+            {
+                Master = "Мастер по мужским и женским стрижкам";
+                return $"{Human.FirstName} {Human.LastName} \n{Master}";
+            }
+
+            if (WomenHaircut == true && ManHaircut == false)
+            {
+                Master = "Мастер по женским стрижкам";
+                return $"{Human.FirstName} {Human.LastName} \n{Master}";
+            }
+            if (WomenHaircut == false && ManHaircut == true)
+            {
+                Master = "Мастер по мужским стрижкам";
+                return $"{Human.FirstName} {Human.LastName} \n{Master}";
+            }
+           
+            return $"{Human.FirstName} {Human.LastName}";
+        }
     }
 }

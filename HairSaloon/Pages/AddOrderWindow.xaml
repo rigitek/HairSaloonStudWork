@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:HairSaloon.Pages"
         xmlns:Models="clr-namespace:HairSaloon.Models" x:Class="HairSaloon.Pages.AddOrderWindow"
         mc:Ignorable="d"
-        Title="AddOrderWindow" Height="350" Width="250">
+        Title="AddOrderWindow" SizeToContent="WidthAndHeight" MinWidth="300">
     <Grid>
-        <TextBlock x:Name="Title" Text="Новая заявка" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+        <TextBlock x:Name="TitleName" Text="Новая заявка" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
         <StackPanel Margin="10 20 10 10">
             <TextBlock Text="Дата"/>
             <DatePicker x:Name="Date" Margin="0 0 0 5" SelectedDate="{Binding Date}"/>
@@ -50,11 +50,15 @@
 
             <CheckBox x:Name="WashHair" Margin="0 0 0 5" IsChecked="{Binding WashHair}" Content="Мытье головы"/>
             <CheckBox x:Name="State" Margin="0 0 0 5" IsChecked="{Binding State}" Content="Состояние"/>
-            
-            <StackPanel Orientation="Horizontal" Margin="5 10 0 10">
-                <Button IsDefault="True" Content="Сохранить"  Margin="0 0 10 0" Click="Accept_Click"/>
-                <Button IsCancel="True" Content="Отмена"  />
-            </StackPanel>
+
+            <DockPanel  LastChildFill="True" VerticalAlignment="Bottom">
+
+                <UniformGrid Columns="2">
+
+                    <Button IsDefault="True" Content="Сохранить"  Margin="0 0 10 0" Click="Accept_Click"/>
+                    <Button IsCancel="True" Content="Отмена"  />
+                </UniformGrid>
+            </DockPanel>
         </StackPanel>
     </Grid>
 </Window>
