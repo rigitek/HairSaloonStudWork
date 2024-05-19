@@ -34,7 +34,7 @@ namespace HairSaloon.Pages
             this.Loaded += AddEmployeeWindow_Loaded;
            
             Employee = employee;
-            humansComboBox.SelectedIndex = Employee.Human.Id-1;
+            humansComboBox.SelectedItem = Employee.Human;
             humansComboBox.IsEnabled = false;
             DataContext = Employee;
         }
@@ -50,7 +50,7 @@ namespace HairSaloon.Pages
             db.Humans.Load();
             db.Employees.Load();
             
-            
+
             humans = db.Humans.ToList();
             humansComboBox.ItemsSource= humans;
         }

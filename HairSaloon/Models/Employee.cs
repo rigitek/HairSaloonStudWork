@@ -13,8 +13,8 @@ namespace HairSaloon.Models
         public bool ManHaircut { get; set; }
         public bool Admin { get; set; }
 
-
-        public Human Human { get; set; }
+        public int HumanId { get; set; }
+        public Human? Human { get; set; }
 
         public override string ToString()
         {

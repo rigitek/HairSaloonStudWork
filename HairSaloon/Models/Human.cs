@@ -16,6 +16,8 @@ namespace HairSaloon.Models
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
 
+        public Employee? Employee { get; set; }
+
         public override string ToString()=>$"{FirstName} {LastName} \n{PhoneNumber}";
     
     }

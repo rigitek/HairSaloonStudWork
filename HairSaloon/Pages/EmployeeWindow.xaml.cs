@@ -121,7 +121,7 @@ namespace HairSaloon.Pages
 
         private void CheckEmployee()
         {
-            if(db.Humans.Count()==db.Employees.Count()) AddButton.IsEnabled = false;
+            if(db.Humans.Count()==db.Employees.Count() && db.Humans.Count()!=0) AddButton.IsEnabled = false;
         }
     }
 }
