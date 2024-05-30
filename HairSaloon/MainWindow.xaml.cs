@@ -22,32 +22,48 @@ namespace HairSaloon
             InitializeComponent();
         }
 
-        private void Human_Click(object sender, RoutedEventArgs e) //переход на страницу со списком людей
+        //переход на страницу со списком людей
+        private void Human_Click(object sender, RoutedEventArgs e) 
         {
-            HumanWindow humanWindow = new HumanWindow();  //для открытия окна создаем его объект
-            this.Close(); //закрывает уже открытое окно
-            humanWindow.Show(); //открывает новое окно
+            //для открытия окна создаем его объект
+            HumanWindow humanWindow = new HumanWindow();
+            //закрывает уже открытое окно
+            this.Close();
+            //открывает новое окно
+            humanWindow.Show(); 
         }
 
-        private void Order_Click(object sender, RoutedEventArgs e)//переход на страницу с заказами
+        //переход на страницу с заказами
+        private void Order_Click(object sender, RoutedEventArgs e)
         {
-            OrderWindow orderWindow = new OrderWindow();  //для открытия окна создаем его объект
-            this.Close(); //закрывает уже открытое окно
-            orderWindow.Show(); //открывает новое окно
+            //для открытия окна создаем его объект
+            OrderWindow orderWindow = new OrderWindow();
+            //закрывает уже открытое окно
+            this.Close();
+            //открывает новое окно
+            orderWindow.Show();
         }
 
-        private void Service_Click(object sender, RoutedEventArgs e) //переход на страницу услуг
+        //переход на страницу услуг
+        private void Service_Click(object sender, RoutedEventArgs e) 
         {
-            ServiceWindow serviceWindow = new ServiceWindow(); //для открытия окна создаем его объект
-            this.Close(); //закрывает уже открытое окно
-            serviceWindow.Show(); //открывает новое окно
+            //для открытия окна создаем его объект
+            ServiceWindow serviceWindow = new ServiceWindow();
+            //закрывает уже открытое окно
+            this.Close();
+            //открывает новое окно
+            serviceWindow.Show();
         }
 
-        private void Employee_Click(object sender, RoutedEventArgs e) //переход на страницу сотрудников
+        //переход на страницу сотрудников
+        private void Employee_Click(object sender, RoutedEventArgs e) 
         {
-            EmployeeWindow employeeWindow = new EmployeeWindow();  //для открытия окна создаем его объект
-            this.Close(); //закрывает уже открытое окно
-            employeeWindow.Show(); //открывает новое окно
+            //для открытия окна создаем его объект
+            EmployeeWindow employeeWindow = new EmployeeWindow();
+            //закрывает уже открытое окно
+            this.Close();
+            //открывает новое окно
+            employeeWindow.Show(); 
         }
     }
 }

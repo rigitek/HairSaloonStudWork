@@ -26,54 +26,43 @@ namespace HairSaloon.Pages
     {
         HairSaloonContext db = new HairSaloonContext();
 
-        //List<Employee> employees;
-
         public EmployeeWindow()
         {
             InitializeComponent();
+            // запускаем метод при открытии окна
             this.Loaded += EmployeeWindow_Loaded;
         }
 
         private void EmployeeWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            //загружаем данные из бд
             db.Humans.Load();
             db.Employees.Load();
+            // устанавливаем данные в качестве контекста
             DataContext = db.Employees.Local.ToObservableCollection();
-            //employeesList.ItemsSource = db.Employees;
 
-            //employees = db.Employees.ToList();
-            // employeesList.ItemsSource= employees;
             CheckEmployee();
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-
-            //AddEmployeeWindow AddEmployeeWindow = new AddEmployeeWindow(new Employee());
-
+            //создаем обьект нового окна с созданием нового обьекта для записи в бд
             AddEmployeeWindow AddEmployeeWindow = new AddEmployeeWindow();
+            //если открытое окно завершилось с true
             if (AddEmployeeWindow.ShowDialog() == true)
             {
                 db.Employees.Load();
                 CheckEmployee();
             }
-
-            //if (AddEmployeeWindow.ShowDialog() == true)
-            //{
-
-            //    db.Humans.Load();
-            //    Employee Employee = AddEmployeeWindow.Employee;
-            //    db.Humans.Attach(Employee.Human);
-            //    db.Employees.Add(Employee);
-            //    db.SaveChanges();
-            //}
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
+            //получаем выделенный объект
             Employee? employee = employeesList.SelectedItem as Employee;
             if (employee is null) return;
 
+            //передача данных выбранного обьекта в окно
             AddEmployeeWindow AddEmployeeWindow = new AddEmployeeWindow(new Employee
             {
                 Id = employee.Id,
@@ -88,13 +77,16 @@ namespace HairSaloon.Pages
             {
                 // получаем измененный объект
                 employee = db.Employees.Find(AddEmployeeWindow.Employee.Id);
+                //если объект найдет
                 if (employee != null)
                 {
                     employee.WomenHaircut = AddEmployeeWindow.Employee.WomenHaircut;
                     employee.ManHaircut = AddEmployeeWindow.Employee.ManHaircut;
                     employee.Admin = AddEmployeeWindow.Employee.Admin;
-                    
+
+                    //сохраняем изменения в бд
                     db.SaveChanges();
+                    //обновляем список 
                     employeesList.Items.Refresh();
                 }
             }
@@ -114,11 +106,15 @@ namespace HairSaloon.Pages
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
+            //для открытия окна создаем его объект
             MainWindow mainWindow = new MainWindow();
+            //закрывает уже открытое окно
             this.Close();
+            //открываем новое окно
             mainWindow.Show();
         }
 
+        //проверка сотрудников на количество
         private void CheckEmployee()
         {
             if(db.Humans.Count()==db.Employees.Count() && db.Humans.Count()!=0) AddButton.IsEnabled = false;

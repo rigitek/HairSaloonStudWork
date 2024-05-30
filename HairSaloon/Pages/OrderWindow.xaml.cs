@@ -73,9 +73,11 @@ namespace HairSaloon.Pages
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
+            //получаем выделенный объект
             Order? order = ordersList.SelectedItem as Order;
             if (order is null) return;
 
+            //передача данных выбранного обьекта в окно
             AddOrderWindow AddOrderWindow = new AddOrderWindow(new Order
             {
                 Id = order.Id,
@@ -93,19 +95,19 @@ namespace HairSaloon.Pages
             {
                 // получаем измененный объект
                 order = db.Orders.Find(AddOrderWindow.Order.Id);
+                //если объект найдет
                 if (order != null)
                 {
                     order.Date = AddOrderWindow.Order.Date;
                     order.Time = AddOrderWindow.Order.Time;
                     order.WashHair = AddOrderWindow.Order.WashHair;
                     order.State = AddOrderWindow.Order.State;
-                    
 
+                    //сохраняем изменения в бд
                     db.SaveChanges();
+                    //обновляем список 
                     ordersList.Items.Refresh();
-                   
                 }
-                
             }
         }
 
@@ -115,14 +117,19 @@ namespace HairSaloon.Pages
             Order? order = ordersList.SelectedItem as Order;
             // если ни одного объекта не выделено, выходим
             if (order is null) return;
+            //удаляем выделенный обьект из бд
             db.Orders.Remove(order);
+            // сохраняем изменения в бд
             db.SaveChanges();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
+            //для открытия окна создаем его объект
             MainWindow mainWindow = new MainWindow();
+            //закрывает уже открытое окно
             this.Close();
+            //открываем новое окно
             mainWindow.Show();
         }
     }

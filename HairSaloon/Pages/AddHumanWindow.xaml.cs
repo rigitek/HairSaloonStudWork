@@ -21,14 +21,17 @@ namespace HairSaloon.Pages
     public partial class AddHumanWindow : Window
     {
         public Human Human { get; set; }
+        //через конструктор получаем объект 
         public AddHumanWindow(Human human)
         {
             InitializeComponent();
             
             Human= human;
+            //устанавливаем объект в качестве контекста данных
             DataContext = Human;
         }
 
+        //передает результат при закрытии окна
         void Accept_Click(object sender, RoutedEventArgs e)
         {
 

@@ -24,18 +24,23 @@ namespace HairSaloon.Pages
     public partial class AddEmployeeWindow : Window
     {
         HairSaloonContext db = new HairSaloonContext();
+
         List<Human> humans;
         List<Employee> employees;
         public Employee Employee { get; set; }
 
+        //через конструктор получаем объект 
         public AddEmployeeWindow(Employee employee)
         {
             InitializeComponent();
             this.Loaded += AddEmployeeWindow_Loaded;
            
             Employee = employee;
+            //присваиваем комбобоксу записанное в бд значение для отображения
             humansComboBox.SelectedItem = Employee.Human;
+            //выключаем возможность взаимодействия с комбобокс
             humansComboBox.IsEnabled = false;
+            //устанавливаем объект в качестве контекста данных
             DataContext = Employee;
         }
 
@@ -47,23 +52,30 @@ namespace HairSaloon.Pages
 
         private void AddEmployeeWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            //загружаем данные из бд
             db.Humans.Load();
             db.Employees.Load();
-            
 
+            //присваиваем данные из бд
             humans = db.Humans.ToList();
+
+            //передаем данные для отображения в комбобокс
             humansComboBox.ItemsSource= humans;
         }
 
         void Accept_Click(object sender, RoutedEventArgs e)
         {
+            //если order не равен 0, то закрывается окно с результатом true
             if (Employee != null) DialogResult = true;
             else
             {
+                //получаем выбранный объект
                 Human human = humansComboBox.SelectedItem as Human;
 
+                //проверяем что объект получен
                 if (human == null) return;
 
+                //создаем новый обьект и заполняем данными введенными в окне
                 Employee employee = new Employee
                 {
                     WomenHaircut = Women.IsChecked.Value,
@@ -72,8 +84,11 @@ namespace HairSaloon.Pages
                     Human = human
                 };
 
+                //прикрепляем объекты к текущему контексту данных
                 db.Humans.Attach(human);
+                //добавляем новый объект в бд
                 db.Employees.Add(employee);
+                //сохраняем изменения в бд
                 db.SaveChanges();
 
                 DialogResult = true;

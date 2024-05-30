@@ -22,16 +22,18 @@ namespace HairSaloon.Pages
     public partial class AddServiceWindow : Window
     {
         public Service Service;
+        //через конструктор получаем объект 
         public AddServiceWindow(Service service)
         {
             InitializeComponent();
             Service = service;
+            //устанавливаем объект в качестве контекста данных
             DataContext = Service;
         }
 
+        //передает результат при закрытии окна
         void Accept_Click(object sender, RoutedEventArgs e)
         {
-
             DialogResult = true;
         }
     }

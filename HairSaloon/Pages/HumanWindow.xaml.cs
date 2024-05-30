@@ -27,23 +27,24 @@ namespace HairSaloon.Pages
         public HumanWindow()
         {
             InitializeComponent();
+            // запускаем метод при открытии окна
             this.Loaded += HumanWindow_Loaded;
-
         }
 
         private void HumanWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            //загружаем данные из бд
             db.Humans.Load();
+            // устанавливаем данные в качестве контекста
             DataContext = db.Humans.Local.ToObservableCollection();
-            
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
+            //создаем обьект нового окна с созданием нового обьекта для записи в бд
             AddHumanWindow AddHumanWindow = new AddHumanWindow(new Human());
 
-            //AddHumanWindow.Show();
+            //если открытое окно завершилось с true
             if (AddHumanWindow.ShowDialog() == true)
             {
                 Human Human = AddHumanWindow.Human;
@@ -54,9 +55,11 @@ namespace HairSaloon.Pages
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
+            //получаем выделенный объект
             Human? human = humansList.SelectedItem as Human;
             if (human is null) return;
 
+            //передача данных выбранного обьекта в окно
             AddHumanWindow AddHumanWindow = new AddHumanWindow(new Human
             {
                 Id = human.Id,
@@ -70,12 +73,16 @@ namespace HairSaloon.Pages
             {
                 // получаем измененный объект
                 human = db.Humans.Find(AddHumanWindow.Human.Id);
+                //если объект найдет
                 if (human != null)
                 {
                     human.FirstName = AddHumanWindow.Human.FirstName;
                     human.LastName = AddHumanWindow.Human.LastName;
                     human.PhoneNumber = AddHumanWindow.Human.PhoneNumber;
+
+                    //сохраняем изменения в бд
                     db.SaveChanges();
+                    //обновляем список 
                     humansList.Items.Refresh();
                 }
             }
@@ -87,14 +94,19 @@ namespace HairSaloon.Pages
             Human? human= humansList.SelectedItem as Human;
             // если ни одного объекта не выделено, выходим
             if (human is null) return;
+            //удаляем выделенный обьект из бд
             db.Humans.Remove(human);
+            // сохраняем изменения в бд
             db.SaveChanges();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
+            //для открытия окна создаем его объект
             MainWindow mainWindow = new MainWindow();
+            //закрывает уже открытое окно
             this.Close();
+            //открываем новое окно
             mainWindow.Show();
         }
     }

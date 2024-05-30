@@ -65,7 +65,7 @@ namespace HairSaloon.Pages
             // если ни одного объекта не выделено, выходим
             if (service is null) return;
 
-            //передача данных в окно
+            //передача данных выбранного обьекта в окно
             AddServiceWindow AddServiceWindow = new AddServiceWindow(new Service
             {
                 Id = service.Id,
@@ -81,7 +81,7 @@ namespace HairSaloon.Pages
                 //если объект найдет
                 if (service != null)
                 {
-                    //новые данные з аписываются
+                    //новые данные записываются вместо старых
                     service.Title = AddServiceWindow.Service.Title;
                     service.Price = AddServiceWindow.Service.Price;
 
@@ -100,16 +100,21 @@ namespace HairSaloon.Pages
             Service? service = servicesList.SelectedItem as Service;
             // если ни одного объекта не выделено, выходим
             if (service is null) return;
-            db.Services.Remove(service); //удаляем выделенный обьект из бд
-            db.SaveChanges(); // сохраняем изменения в бд
+            //удаляем выделенный обьект из бд
+            db.Services.Remove(service);
+            // сохраняем изменения в бд
+            db.SaveChanges(); 
         }
 
         //возврат обратно в меню
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow(); //для открытия окна создаем его объект
-            this.Close();  //закрывает уже открытое окно
-            mainWindow.Show(); //открываем новое окно
+            //для открытия окна создаем его объект
+            MainWindow mainWindow = new MainWindow();
+            //закрывает уже открытое окно
+            this.Close();
+            //открываем новое окно
+            mainWindow.Show(); 
         }
     }
 }
