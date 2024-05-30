@@ -26,33 +26,46 @@ namespace HairSaloon.Pages
         public ServiceWindow()
         {
             InitializeComponent();
+            // запускаем метод при открытии окна
             this.Loaded += ServiceWindow_Loaded;
         }
 
+        // при загрузке окна 
         private void ServiceWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            //загружаем данные услуг из бд
             db.Services.Load();
+            // устанавливаем данные в качестве контекста
             DataContext = db.Services.Local.ToObservableCollection();
         }
 
+        //добавление
         private void Add_Click(object sender, RoutedEventArgs e)
         {
+            //создаем обьект нового окна с созданием нового обьекта для записи в бд
             AddServiceWindow AddServiceWindow = new AddServiceWindow(new Service());
 
-            //AddHumanWindow.Show();
+            //если открытое окно завершилось с true
             if (AddServiceWindow.ShowDialog() == true)
             {
+                //создаем обьект для записи в бд и передаем данные введенные в окне
                 Service Service = AddServiceWindow.Service;
+                //добавляем новый обьект в бд
                 db.Services.Add(Service);
+                //сохраняем изменения в бд
                 db.SaveChanges();
             }
         }
 
+        //редактирование
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
+            //получаем выделенный объект
             Service? service = servicesList.SelectedItem as Service;
+            // если ни одного объекта не выделено, выходим
             if (service is null) return;
 
+            //передача данных в окно
             AddServiceWindow AddServiceWindow = new AddServiceWindow(new Service
             {
                 Id = service.Id,
@@ -63,34 +76,40 @@ namespace HairSaloon.Pages
 
             if (AddServiceWindow.ShowDialog() == true)
             {
-                // получаем измененный объект
+                // находим объект в бд в котором будем обновлять данные
                 service = db.Services.Find(AddServiceWindow.Service.Id);
+                //если объект найдет
                 if (service != null)
                 {
+                    //новые данные з аписываются
                     service.Title = AddServiceWindow.Service.Title;
                     service.Price = AddServiceWindow.Service.Price;
 
+                    //сохраняем изменения в бд
                     db.SaveChanges();
+                    //обновляем список 
                     servicesList.Items.Refresh();
                 }
             }
         }
 
+        //удаление
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             // получаем выделенный объект
             Service? service = servicesList.SelectedItem as Service;
             // если ни одного объекта не выделено, выходим
             if (service is null) return;
-            db.Services.Remove(service);
-            db.SaveChanges();
+            db.Services.Remove(service); //удаляем выделенный обьект из бд
+            db.SaveChanges(); // сохраняем изменения в бд
         }
 
+        //возврат обратно в меню
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            this.Close();
-            mainWindow.Show();
+            MainWindow mainWindow = new MainWindow(); //для открытия окна создаем его объект
+            this.Close();  //закрывает уже открытое окно
+            mainWindow.Show(); //открываем новое окно
         }
     }
 }

@@ -26,32 +26,34 @@ namespace HairSaloon.Pages
         public OrderWindow()
         {
             InitializeComponent();
+            // запускаем метод при открытии окна
             this.Loaded += OrderWindow_Loaded;
-
-            
-        }
+        }   
 
         private void OrderWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            //загружаем данные из бд
             db.Humans.Load();
             db.Employees.Load();
             db.Services.Load();
             db.Orders.Load();
+            // устанавливаем данные в качестве контекста
             DataContext = db.Orders.Local.ToObservableCollection();
-
-
         }
 
         private void Complete_Changed(object sender, RoutedEventArgs e)
         {
+            // вывод по состоянию выполненные
             if (Complete.SelectedIndex == 0)
             {
                 DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == true);
             }
+            // вывод по состоянию невыполненные
             if (Complete.SelectedIndex == 1)
             {
                 DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == false);
             }
+            // вывод по состоянию все
             if (Complete.SelectedIndex == 2)
             {
                 DataContext = db.Orders.Local.ToObservableCollection();
@@ -60,12 +62,12 @@ namespace HairSaloon.Pages
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
+            //создаем обьект нового окна с созданием нового обьекта для записи в бд
             AddOrderWindow AddOrderWindow = new AddOrderWindow();
+            //если открытое окно завершилось с true
             if (AddOrderWindow.ShowDialog() == true)
             {
                 db.Orders.Load();
-                
-                
             }
         }
 

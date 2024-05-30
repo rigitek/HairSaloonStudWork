@@ -22,32 +22,32 @@ namespace HairSaloon
             InitializeComponent();
         }
 
-        private void Human_Click(object sender, RoutedEventArgs e)
+        private void Human_Click(object sender, RoutedEventArgs e) //переход на страницу со списком людей
         {
-            HumanWindow humanWindow = new HumanWindow();
-            this.Close();
-            humanWindow.Show();
+            HumanWindow humanWindow = new HumanWindow();  //для открытия окна создаем его объект
+            this.Close(); //закрывает уже открытое окно
+            humanWindow.Show(); //открывает новое окно
         }
 
-        private void Order_Click(object sender, RoutedEventArgs e)
+        private void Order_Click(object sender, RoutedEventArgs e)//переход на страницу с заказами
         {
-            OrderWindow orderWindow = new OrderWindow();
-            this.Close();
-            orderWindow.Show();
+            OrderWindow orderWindow = new OrderWindow();  //для открытия окна создаем его объект
+            this.Close(); //закрывает уже открытое окно
+            orderWindow.Show(); //открывает новое окно
         }
 
-        private void Service_Click(object sender, RoutedEventArgs e)
+        private void Service_Click(object sender, RoutedEventArgs e) //переход на страницу услуг
         {
-            ServiceWindow serviceWindow = new ServiceWindow();
-            this.Close();
-            serviceWindow.Show();
+            ServiceWindow serviceWindow = new ServiceWindow(); //для открытия окна создаем его объект
+            this.Close(); //закрывает уже открытое окно
+            serviceWindow.Show(); //открывает новое окно
         }
 
-        private void Employee_Click(object sender, RoutedEventArgs e)
+        private void Employee_Click(object sender, RoutedEventArgs e) //переход на страницу сотрудников
         {
-            EmployeeWindow employeeWindow = new EmployeeWindow();
-            this.Close();
-            employeeWindow.Show();
+            EmployeeWindow employeeWindow = new EmployeeWindow();  //для открытия окна создаем его объект
+            this.Close(); //закрывает уже открытое окно
+            employeeWindow.Show(); //открывает новое окно
         }
     }
 }
