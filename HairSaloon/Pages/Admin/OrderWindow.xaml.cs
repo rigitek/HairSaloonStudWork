@@ -126,11 +126,11 @@ namespace HairSaloon.Pages
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             //для открытия окна создаем его объект
-            MainWindow mainWindow = new MainWindow();
+            AdminMainMenuWindow adminMainMenuWindow = new AdminMainMenuWindow();
             //закрывает уже открытое окно
             this.Close();
             //открываем новое окно
-            mainWindow.Show();
+            adminMainMenuWindow.Show();
         }
     }
 }

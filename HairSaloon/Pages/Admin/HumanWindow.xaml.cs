@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,104 +18,100 @@ using System.Windows.Shapes;
 namespace HairSaloon.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для ServiceWindow.xaml
+    /// Логика взаимодействия для HumanWindow.xaml
     /// </summary>
-    public partial class ServiceWindow : Window
+    public partial class HumanWindow : Window
     {
         HairSaloonContext db = new HairSaloonContext();
-
-        public ServiceWindow()
+        
+        public HumanWindow()
         {
             InitializeComponent();
             // запускаем метод при открытии окна
-            this.Loaded += ServiceWindow_Loaded;
+            this.Loaded += HumanWindow_Loaded;
         }
 
-        // при загрузке окна 
-        private void ServiceWindow_Loaded(object sender, RoutedEventArgs e)
+        private void HumanWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //загружаем данные услуг из бд
-            db.Services.Load();
+            //загружаем данные из бд
+            db.Humans.Load();
             // устанавливаем данные в качестве контекста
-            DataContext = db.Services.Local.ToObservableCollection();
+            DataContext = db.Humans.Local.ToObservableCollection();
         }
 
-        //добавление
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             //создаем обьект нового окна с созданием нового обьекта для записи в бд
-            AddServiceWindow AddServiceWindow = new AddServiceWindow(new Service());
+            AddHumanWindow AddHumanWindow = new AddHumanWindow(new Human());
 
             //если открытое окно завершилось с true
-            if (AddServiceWindow.ShowDialog() == true)
+            if (AddHumanWindow.ShowDialog() == true)
             {
-                //создаем обьект для записи в бд и передаем данные введенные в окне
-                Service Service = AddServiceWindow.Service;
-                //добавляем новый обьект в бд
-                db.Services.Add(Service);
-                //сохраняем изменения в бд
+                Human Human = AddHumanWindow.Human;
+                db.Humans.Add(Human);
                 db.SaveChanges();
             }
         }
 
-        //редактирование
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
             //получаем выделенный объект
-            Service? service = servicesList.SelectedItem as Service;
-            // если ни одного объекта не выделено, выходим
-            if (service is null) return;
+            Human? human = humansList.SelectedItem as Human;
+            if (human is null) return;
 
             //передача данных выбранного обьекта в окно
-            AddServiceWindow AddServiceWindow = new AddServiceWindow(new Service
+            AddHumanWindow AddHumanWindow = new AddHumanWindow(new Human
             {
-                Id = service.Id,
-                Title = service.Title,
-                Price = service.Price
-            });
+                Id = human.Id,
+                FirstName=human.FirstName,
+                LastName=human.LastName,
+                PhoneNumber=human.PhoneNumber,
+                Login=human.Login,
+                Password=human.Password
+            }) ;
 
 
-            if (AddServiceWindow.ShowDialog() == true)
+            if (AddHumanWindow.ShowDialog() == true)
             {
-                // находим объект в бд в котором будем обновлять данные
-                service = db.Services.Find(AddServiceWindow.Service.Id);
+                // получаем измененный объект
+                human = db.Humans.Find(AddHumanWindow.Human.Id);
                 //если объект найдет
-                if (service != null)
+                if (human != null)
                 {
-                    //новые данные записываются вместо старых
-                    service.Title = AddServiceWindow.Service.Title;
-                    service.Price = AddServiceWindow.Service.Price;
+                    human.FirstName = AddHumanWindow.Human.FirstName;
+                    human.LastName = AddHumanWindow.Human.LastName;
+                    human.PhoneNumber = AddHumanWindow.Human.PhoneNumber;
+                    human.Login = AddHumanWindow.Human.Login;
+                    human.Password = AddHumanWindow.Human.Password;
 
                     //сохраняем изменения в бд
                     db.SaveChanges();
                     //обновляем список 
-                    servicesList.Items.Refresh();
+                    humansList.Items.Refresh();
                 }
             }
         }
 
-        //удаление
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             // получаем выделенный объект
-            Service? service = servicesList.SelectedItem as Service;
+            Human? human= humansList.SelectedItem as Human;
             // если ни одного объекта не выделено, выходим
-            if (service is null) return;
+            if (human is null) return;
             //удаляем выделенный обьект из бд
-            db.Services.Remove(service);
+            db.Humans.Remove(human);
             // сохраняем изменения в бд
-            db.SaveChanges(); 
+            db.SaveChanges();
         }
 
-        //возврат обратно в меню
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             //для открытия окна создаем его объект
-            MainWindow mainWindow = new MainWindow();
+            AdminMainMenuWindow adminMainMenuWindow = new AdminMainMenuWindow();
             //закрывает уже открытое окно
             this.Close();
             //открываем новое окно
-            mainWindow.Show(); 
+            adminMainMenuWindow.Show();
         }
     }
 }

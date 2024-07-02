@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,76 +15,79 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace HairSaloon.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для HumanWindow.xaml
+    /// Логика взаимодействия для EmployeeWindow.xaml
     /// </summary>
-    public partial class HumanWindow : Window
+    public partial class EmployeeWindow : Window
     {
         HairSaloonContext db = new HairSaloonContext();
-        
-        public HumanWindow()
+
+        public EmployeeWindow()
         {
             InitializeComponent();
             // запускаем метод при открытии окна
-            this.Loaded += HumanWindow_Loaded;
+            this.Loaded += EmployeeWindow_Loaded;
         }
 
-        private void HumanWindow_Loaded(object sender, RoutedEventArgs e)
+        private void EmployeeWindow_Loaded(object sender, RoutedEventArgs e)
         {
             //загружаем данные из бд
             db.Humans.Load();
+            db.Employees.Load();
             // устанавливаем данные в качестве контекста
-            DataContext = db.Humans.Local.ToObservableCollection();
+            DataContext = db.Employees.Local.ToObservableCollection();
+
+            CheckEmployee();
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             //создаем обьект нового окна с созданием нового обьекта для записи в бд
-            AddHumanWindow AddHumanWindow = new AddHumanWindow(new Human());
-
+            AddEmployeeWindow AddEmployeeWindow = new AddEmployeeWindow();
             //если открытое окно завершилось с true
-            if (AddHumanWindow.ShowDialog() == true)
+            if (AddEmployeeWindow.ShowDialog() == true)
             {
-                Human Human = AddHumanWindow.Human;
-                db.Humans.Add(Human);
-                db.SaveChanges();
+                db.Employees.Load();
+                CheckEmployee();
             }
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
             //получаем выделенный объект
-            Human? human = humansList.SelectedItem as Human;
-            if (human is null) return;
+            Employee? employee = employeesList.SelectedItem as Employee;
+            if (employee is null) return;
 
             //передача данных выбранного обьекта в окно
-            AddHumanWindow AddHumanWindow = new AddHumanWindow(new Human
+            AddEmployeeWindow AddEmployeeWindow = new AddEmployeeWindow(new Employee
             {
-                Id = human.Id,
-                FirstName=human.FirstName,
-                LastName=human.LastName,
-                PhoneNumber=human.PhoneNumber
-            }) ;
+                Id = employee.Id,
+                WomenHaircut = employee.WomenHaircut,
+                ManHaircut = employee.ManHaircut,
+                Admin = employee.Admin,
+                Human = employee.Human
+            });
 
 
-            if (AddHumanWindow.ShowDialog() == true)
+            if (AddEmployeeWindow.ShowDialog() == true)
             {
                 // получаем измененный объект
-                human = db.Humans.Find(AddHumanWindow.Human.Id);
+                employee = db.Employees.Find(AddEmployeeWindow.Employee.Id);
                 //если объект найдет
-                if (human != null)
+                if (employee != null)
                 {
-                    human.FirstName = AddHumanWindow.Human.FirstName;
-                    human.LastName = AddHumanWindow.Human.LastName;
-                    human.PhoneNumber = AddHumanWindow.Human.PhoneNumber;
+                    employee.WomenHaircut = AddEmployeeWindow.Employee.WomenHaircut;
+                    employee.ManHaircut = AddEmployeeWindow.Employee.ManHaircut;
+                    employee.Admin = AddEmployeeWindow.Employee.Admin;
 
                     //сохраняем изменения в бд
                     db.SaveChanges();
                     //обновляем список 
-                    humansList.Items.Refresh();
+                    employeesList.Items.Refresh();
                 }
             }
         }
@@ -91,23 +95,29 @@ namespace HairSaloon.Pages
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             // получаем выделенный объект
-            Human? human= humansList.SelectedItem as Human;
+            Employee? employee = employeesList.SelectedItem as Employee;
             // если ни одного объекта не выделено, выходим
-            if (human is null) return;
-            //удаляем выделенный обьект из бд
-            db.Humans.Remove(human);
-            // сохраняем изменения в бд
+            if (employee is null) return;
+            db.Employees.Remove(employee);
             db.SaveChanges();
+
+            CheckEmployee();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             //для открытия окна создаем его объект
-            MainWindow mainWindow = new MainWindow();
+            AdminMainMenuWindow adminMainMenuWindow = new AdminMainMenuWindow();
             //закрывает уже открытое окно
             this.Close();
             //открываем новое окно
-            mainWindow.Show();
+            adminMainMenuWindow.Show();
+        }
+
+        //проверка сотрудников на количество
+        private void CheckEmployee()
+        {
+            if(db.Humans.Count()==db.Employees.Count() && db.Humans.Count()!=0) AddButton.IsEnabled = false;
         }
     }
 }

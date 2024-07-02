@@ -1,4 +1,8 @@
-﻿using HairSaloon.Pages;
+﻿using HairSaloon.Models;
+using HairSaloon.Pages;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,53 +21,58 @@ namespace HairSaloon
     /// </summary>
     public partial class MainWindow : Window
     {
+        HairSaloonContext db = new HairSaloonContext();
+        
+        List<Human> humans { get; set; }
+        List<Employee> employees  { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+
+            db.Humans.Load();
+
+           humans=db.Humans.ToList();
+            employees = db.Employees.ToList();
         }
 
-        //переход на страницу со списком людей
-        private void Human_Click(object sender, RoutedEventArgs e) 
+        private void Login_Click(object sender, RoutedEventArgs e)
         {
-            //для открытия окна создаем его объект
-            HumanWindow humanWindow = new HumanWindow();
-            //закрывает уже открытое окно
-            this.Close();
-            //открывает новое окно
-            humanWindow.Show(); 
-        }
+            if (Login.Text.Length > 0) // проверяем введён ли логин     
+            {
+                if (Password.Password.Length > 0) // проверяем введён ли пароль         
+                {   
+                    // ищем в базе данных пользователя с такими данными         
+                    var db_user = humans.Where(x => x.Login == Login.Text && x.Password == Password.Password);
 
-        //переход на страницу с заказами
-        private void Order_Click(object sender, RoutedEventArgs e)
-        {
-            //для открытия окна создаем его объект
-            OrderWindow orderWindow = new OrderWindow();
-            //закрывает уже открытое окно
-            this.Close();
-            //открывает новое окно
-            orderWindow.Show();
-        }
+                    if (db_user.Count() > 0) // если такая запись существует       
+                    {
+                        GlobalVar.Human = humans.FirstOrDefault(x => x.Login == Login.Text && x.Password == Password.Password);
 
-        //переход на страницу услуг
-        private void Service_Click(object sender, RoutedEventArgs e) 
-        {
-            //для открытия окна создаем его объект
-            ServiceWindow serviceWindow = new ServiceWindow();
-            //закрывает уже открытое окно
-            this.Close();
-            //открывает новое окно
-            serviceWindow.Show();
-        }
+                        var db_employee = employees.Where(x=>x.Human==GlobalVar.Human);
 
-        //переход на страницу сотрудников
-        private void Employee_Click(object sender, RoutedEventArgs e) 
-        {
-            //для открытия окна создаем его объект
-            EmployeeWindow employeeWindow = new EmployeeWindow();
-            //закрывает уже открытое окно
-            this.Close();
-            //открывает новое окно
-            employeeWindow.Show(); 
+                        if(db_employee.Count()>0)
+                        {
+                            GlobalVar.Human.Employee=employees.Where(x=>x.Human==GlobalVar.Human).FirstOrDefault();
+                        }
+
+                        if (GlobalVar.Human.Employee.Admin == true)
+                        {
+                            //для открытия окна создаем его объект
+                            AdminMainMenuWindow adminMainMenuWindow = new AdminMainMenuWindow();
+                            //закрывает уже открытое окно
+                            this.Close();
+                            //открывает новое окно
+                            adminMainMenuWindow.Show();
+                        }
+
+                       
+                    }
+                    else MessageBox.Show("Пользователь не найден"); // выводим ошибку 
+                }
+                else MessageBox.Show("Введите пароль"); // выводим ошибку    
+            }
+            else MessageBox.Show("Введите логин"); // выводим ошибку 
         }
     }
 }

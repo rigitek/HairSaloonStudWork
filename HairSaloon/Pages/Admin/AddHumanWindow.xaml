@@ -16,6 +16,10 @@
             <TextBox Text="{Binding LastName}" />
             <TextBlock>Номер телефона</TextBlock>
             <TextBox Text="{Binding PhoneNumber}" />
+            <TextBlock>Логин</TextBlock>
+            <TextBox Text="{Binding Login}" />
+            <TextBlock>Пароль</TextBlock>
+            <TextBox Text="{Binding Password}" />
             <DockPanel Margin="0 10 0 0" LastChildFill="True" VerticalAlignment="Bottom">
 
                 <UniformGrid Columns="2">

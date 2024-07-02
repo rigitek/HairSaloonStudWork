@@ -5,33 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HairSaloon"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="400">
+        Title="Авторизация" SizeToContent="WidthAndHeight" MinWidth="300">
     <Grid Margin="20">
 
-        <UniformGrid Rows="4">
+        <UniformGrid Rows="5" VerticalAlignment="Center">
+            <TextBlock Text="Логин (admin)"  FontWeight="Bold"/>
+            <TextBox x:Name="Login" Margin="0 0 0 5"/>
+            <TextBlock Text="Пароль (admin)"  FontWeight="Bold"/>
+            <PasswordBox x:Name="Password" Margin="0 0 0 5"/>
+
             <Button x:Name="HumanButton" 
             FontWeight="Bold"
-            Content="Люди"
-            Margin="5"
-            Click="Human_Click"/>
+            Content="Авторизоваться"
+            
+                    Height="25"
+            Click="Login_Click"/>
 
-            <Button x:Name="EmployeeButton" 
-            FontWeight="Bold"
-            Content="Сотрудники"
-            Margin="5"
-                    Click="Employee_Click"/>
-
-            <Button x:Name="ServiceButton" 
-            FontWeight="Bold"
-            Content="Услуги"
-            Margin="5"
-                    Click="Service_Click"/>
-
-            <Button x:Name="OrderButton" 
-            FontWeight="Bold"
-            Content="Записи"
-            Margin="5"
-                    Click="Order_Click"/>
         </UniformGrid>
     </Grid>
 </Window>
