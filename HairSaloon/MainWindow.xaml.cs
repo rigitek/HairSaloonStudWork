@@ -1,5 +1,7 @@
 ﻿using HairSaloon.Models;
 using HairSaloon.Pages;
+using HairSaloon.Pages.EmployeePages;
+using HairSaloon.Pages.HumanPages;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Linq;
@@ -64,9 +66,23 @@ namespace HairSaloon
                             this.Close();
                             //открывает новое окно
                             adminMainMenuWindow.Show();
+                        }else if (GlobalVar.Human.Employee.WomenHaircut == true || GlobalVar.Human.Employee.ManHaircut == true)
+                        {
+                            //для открытия окна создаем его объект
+                            EmployeeMainMenuWindow employeeMainMenuWindow = new EmployeeMainMenuWindow();
+                            //закрывает уже открытое окно
+                            this.Close();
+                            //открывает новое окно
+                            employeeMainMenuWindow.Show();
                         }
-
-                       
+                        else
+                        {
+                            HumanMainMenuWindow humanMainMenuWindow = new HumanMainMenuWindow();
+                            //закрывает уже открытое окно
+                            this.Close();
+                            //открывает новое окно
+                            humanMainMenuWindow.Show();
+                        }
                     }
                     else MessageBox.Show("Пользователь не найден"); // выводим ошибку 
                 }

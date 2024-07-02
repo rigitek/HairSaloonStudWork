@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HairSaloon.Pages"
         mc:Ignorable="d"
-        Title="MainMenuWindow" Height="300" Width="350">
+        Title="MainMenuWindow" Height="350" Width="350">
     <Grid Margin="20">
         <TextBlock x:Name="welcome" 
                    Text="Добро пожаловать!" 
                    FontWeight="Bold" 
                    HorizontalAlignment="Center"/>
         
-        <UniformGrid Rows="4" Margin="0 20 0 0">
+        <UniformGrid Rows="5" Margin="0 20 0 0">
         <Button x:Name="HumanButton" 
         FontWeight="Bold"
         Content="Люди"
@@ -36,6 +36,14 @@
         Content="Записи"
         Margin="5"
                 Click="Order_Click"/>
+
+            <Button x:Name="BackButton" 
+FontWeight="Bold"
+Content="Выход"
+Margin="5"
+        Click="Back_Click"/>
+            
+           
         </UniformGrid>
     </Grid>
 </Window>

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HairSaloon.Pages.Employee
+namespace HairSaloon.Pages.EmployeePages
 {
     /// <summary>
     /// Логика взаимодействия для EmployeeMainMenuWindow.xaml
@@ -22,6 +22,8 @@ namespace HairSaloon.Pages.Employee
         public EmployeeMainMenuWindow()
         {
             InitializeComponent();
+
+            welcome.Text = $"Добро пожаловать! {GlobalVar.Human.FirstName} {GlobalVar.Human.LastName}";
         }
 
         //переход на страницу с заказами
@@ -44,6 +46,16 @@ namespace HairSaloon.Pages.Employee
             this.Close();
             //открывает новое окно
             serviceWindow.Show();
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            //для открытия окна создаем его объект
+            MainWindow mainWindow = new MainWindow();
+            //закрывает уже открытое окно
+            this.Close();
+            //открываем новое окно
+            mainWindow.Show();
         }
     }
 }

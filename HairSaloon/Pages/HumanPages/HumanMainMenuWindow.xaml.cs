@@ -1,5 +1,4 @@
-﻿using HairSaloon.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,29 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HairSaloon.Pages
+namespace HairSaloon.Pages.HumanPages
 {
     /// <summary>
-    /// Логика взаимодействия для MainMenuWindow.xaml
+    /// Логика взаимодействия для HumanMainMenuWindow.xaml
     /// </summary>
-    public partial class AdminMainMenuWindow : Window
+    public partial class HumanMainMenuWindow : Window
     {
-        public AdminMainMenuWindow()
+        public HumanMainMenuWindow()
         {
             InitializeComponent();
 
             welcome.Text = $"Добро пожаловать! {GlobalVar.Human.FirstName} {GlobalVar.Human.LastName}";
-        }
-
-        //переход на страницу со списком людей
-        private void Human_Click(object sender, RoutedEventArgs e)
-        {
-            //для открытия окна создаем его объект
-            HumanWindow humanWindow = new HumanWindow();
-            //закрывает уже открытое окно
-            this.Close();
-            //открывает новое окно
-            humanWindow.Show();
         }
 
         //переход на страницу с заказами
@@ -58,17 +46,6 @@ namespace HairSaloon.Pages
             this.Close();
             //открывает новое окно
             serviceWindow.Show();
-        }
-
-        //переход на страницу сотрудников
-        private void Employee_Click(object sender, RoutedEventArgs e)
-        {
-            //для открытия окна создаем его объект
-            EmployeeWindow employeeWindow = new EmployeeWindow();
-            //закрывает уже открытое окно
-            this.Close();
-            //открывает новое окно
-            employeeWindow.Show();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

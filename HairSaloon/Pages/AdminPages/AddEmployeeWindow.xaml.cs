@@ -27,7 +27,7 @@ namespace HairSaloon.Pages
         HairSaloonContext db = new HairSaloonContext();
 
         List<Human> humans;
-        List<Employee> employees;
+       
         public Employee Employee { get; set; }
 
         //через конструктор получаем объект 
