@@ -32,6 +32,9 @@ namespace HairSaloon
         {
             InitializeComponent();
 
+            GlobalVar.Human = new Human();
+            
+
             db.Humans.Load();
 
            humans=db.Humans.ToList();
@@ -58,15 +61,15 @@ namespace HairSaloon
                             GlobalVar.Human.Employee=employees.Where(x=>x.Human==GlobalVar.Human).FirstOrDefault();
                         }
 
-                        if (GlobalVar.Human.Employee.Admin == true)
+                        if (GlobalVar.Human != null && GlobalVar.Human.Employee==null)
                         {
-                            //для открытия окна создаем его объект
-                            AdminMainMenuWindow adminMainMenuWindow = new AdminMainMenuWindow();
+                            HumanMainMenuWindow humanMainMenuWindow = new HumanMainMenuWindow();
                             //закрывает уже открытое окно
                             this.Close();
                             //открывает новое окно
-                            adminMainMenuWindow.Show();
-                        }else if (GlobalVar.Human.Employee.WomenHaircut == true || GlobalVar.Human.Employee.ManHaircut == true)
+                            humanMainMenuWindow.Show();
+                        }
+                       else if (GlobalVar.Human.Employee.WomenHaircut == true || GlobalVar.Human.Employee.ManHaircut == true)
                         {
                             //для открытия окна создаем его объект
                             EmployeeMainMenuWindow employeeMainMenuWindow = new EmployeeMainMenuWindow();
@@ -75,14 +78,17 @@ namespace HairSaloon
                             //открывает новое окно
                             employeeMainMenuWindow.Show();
                         }
-                        else
+                       else if (GlobalVar.Human.Employee.Admin == true)
                         {
-                            HumanMainMenuWindow humanMainMenuWindow = new HumanMainMenuWindow();
+                            //для открытия окна создаем его объект
+                            AdminMainMenuWindow adminMainMenuWindow = new AdminMainMenuWindow();
                             //закрывает уже открытое окно
                             this.Close();
                             //открывает новое окно
-                            humanMainMenuWindow.Show();
+                            adminMainMenuWindow.Show();
                         }
+                        
+                        
                     }
                     else MessageBox.Show("Пользователь не найден"); // выводим ошибку 
                 }

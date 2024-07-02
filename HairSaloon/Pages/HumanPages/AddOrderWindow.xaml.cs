@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HairSaloon.Pages
+namespace HairSaloon.Pages.HumanPages
 {
     /// <summary>
     /// Логика взаимодействия для AddOrderWindow.xaml
@@ -34,13 +34,13 @@ namespace HairSaloon.Pages
             this.Loaded += AddEmployeeWindow_Loaded;
 
             //меняем заголовок окна
-            TitleName.Text = "Изменение заявки";
+            TitleName.Text = "Изменение записи";
 
             Order = order;
 
             //присваиваем комбобоксу записанное в бд значение для отображения
             employeesComboBox.SelectedIndex = Order.Employee.Id - 1;
-            humansComboBox.SelectedIndex = Order.Human.Id-1;
+            humansComboBox.SelectedIndex = Order.Human.Id - 1;
             servicesComboBox.SelectedIndex = Order.Service.Id - 1;
 
             //выключаем возможность взаимодействия с комбобокс
@@ -59,8 +59,8 @@ namespace HairSaloon.Pages
 
             //меняем заголовок окна
             TitleName.Text = "Новая заявка";
-            
-            
+
+
         }
 
         private void AddEmployeeWindow_Loaded(object sender, RoutedEventArgs e)
@@ -91,22 +91,22 @@ namespace HairSaloon.Pages
                 Human human = humansComboBox.SelectedItem as Human;
                 Employee employee = employeesComboBox.SelectedItem as Employee;
                 Service service = servicesComboBox.SelectedItem as Service;
-               
+
                 //проверяем что все объекты получены
                 if (human == null) return;
                 if (employee == null) return;
                 if (service == null) return;
 
                 //создаем новый обьект и заполняем данными введенными в окне
-                Order order= new Order
+                Order order = new Order
                 {
                     Date = Date.SelectedDate.Value,
                     Time = TimeBox.Text,
                     WashHair = WashHair.IsChecked.Value,
-                    State= stateComboBox.Text,
+                    State = stateComboBox.Text,
                     Human = human,
-                    Employee=employee,
-                    Service=service
+                    Employee = employee,
+                    Service = service
                 };
 
                 //прикрепляем объекты к текущему контексту данных

@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HairSaloon.Pages
+namespace HairSaloon.Pages.HumanPages
 {
     /// <summary>
     /// Логика взаимодействия для OrderWindow.xaml
@@ -28,7 +28,7 @@ namespace HairSaloon.Pages
             InitializeComponent();
             // запускаем метод при открытии окна
             this.Loaded += OrderWindow_Loaded;
-        }   
+        }
 
         private void OrderWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -38,7 +38,7 @@ namespace HairSaloon.Pages
             db.Services.Load();
             db.Orders.Load();
             // устанавливаем данные в качестве контекста
-            DataContext = db.Orders.Local.ToObservableCollection();
+            DataContext = db.Orders.Local.ToObservableCollection().Where(x=>x.Human==GlobalVar.Human);
         }
 
         private void Complete_Changed(object sender, RoutedEventArgs e)
@@ -46,21 +46,21 @@ namespace HairSaloon.Pages
             // вывод по состоянию выполненные
             if (Complete.SelectedIndex == 0)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Выполнено");
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Выполнено" && x.Human == GlobalVar.Human);
             }
             // вывод по состоянию невыполненные
             if (Complete.SelectedIndex == 1)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State =="Отправлено");
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Отправлено" && x.Human == GlobalVar.Human);
             }
             if (Complete.SelectedIndex == 2)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Записано");
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Записано" && x.Human == GlobalVar.Human);
             }
             // вывод по состоянию все
             if (Complete.SelectedIndex == 3)
             {
-                DataContext = db.Orders.Local.ToObservableCollection();
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.Human == GlobalVar.Human);
             }
         }
 
@@ -87,11 +87,11 @@ namespace HairSaloon.Pages
                 Id = order.Id,
                 Date = order.Date,
                 Time = order.Time,
-                WashHair=order.WashHair,
-                State=order.State,
-                Service=order.Service,
-                Human=order.Human,
-                Employee=order.Employee
+                WashHair = order.WashHair,
+                State = order.State,
+                Service = order.Service,
+                Human = order.Human,
+                Employee = order.Employee
             });
 
 
@@ -115,17 +115,7 @@ namespace HairSaloon.Pages
             }
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
-        {
-            // получаем выделенный объект
-            Order? order = ordersList.SelectedItem as Order;
-            // если ни одного объекта не выделено, выходим
-            if (order is null) return;
-            //удаляем выделенный обьект из бд
-            db.Orders.Remove(order);
-            // сохраняем изменения в бд
-            db.SaveChanges();
-        }
+      
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {

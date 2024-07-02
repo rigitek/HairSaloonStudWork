@@ -56,6 +56,7 @@ namespace HairSaloon.Pages.HumanPages
             this.Close();
             //открываем новое окно
             mainWindow.Show();
+            
         }
     }
 }

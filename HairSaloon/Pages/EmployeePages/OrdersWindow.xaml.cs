@@ -13,22 +13,23 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace HairSaloon.Pages
+namespace HairSaloon.Pages.EmployeePages
 {
     /// <summary>
-    /// Логика взаимодействия для OrderWindow.xaml
+    /// Логика взаимодействия для OrdersWindow.xaml
     /// </summary>
-    public partial class OrderWindow : Window
+    public partial class OrdersWindow : Window
     {
         HairSaloonContext db = new HairSaloonContext();
 
-        public OrderWindow()
+        public OrdersWindow()
         {
             InitializeComponent();
             // запускаем метод при открытии окна
             this.Loaded += OrderWindow_Loaded;
-        }   
+        }
 
         private void OrderWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -51,7 +52,7 @@ namespace HairSaloon.Pages
             // вывод по состоянию невыполненные
             if (Complete.SelectedIndex == 1)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State =="Отправлено");
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Отправлено");
             }
             if (Complete.SelectedIndex == 2)
             {
@@ -87,11 +88,11 @@ namespace HairSaloon.Pages
                 Id = order.Id,
                 Date = order.Date,
                 Time = order.Time,
-                WashHair=order.WashHair,
-                State=order.State,
-                Service=order.Service,
-                Human=order.Human,
-                Employee=order.Employee
+                WashHair = order.WashHair,
+                State = order.State,
+                Service = order.Service,
+                Human = order.Human,
+                Employee = order.Employee
             });
 
 

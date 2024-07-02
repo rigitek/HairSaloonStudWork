@@ -30,7 +30,7 @@ namespace HairSaloon.Pages.EmployeePages
         private void Order_Click(object sender, RoutedEventArgs e)
         {
             //для открытия окна создаем его объект
-            OrderWindow orderWindow = new OrderWindow();
+            OrdersWindow orderWindow = new OrdersWindow();
             //закрывает уже открытое окно
             this.Close();
             //открывает новое окно

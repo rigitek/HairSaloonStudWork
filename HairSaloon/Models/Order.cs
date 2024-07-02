@@ -12,7 +12,9 @@ namespace HairSaloon.Models
         public DateTime Date { get; set; }
         public string Time { get; set; }
         public bool WashHair { get; set; }
-        public bool State { get; set; }
+        public string State { get; set; }
+        public int? Rate { get; set; }
+        public string? Comment { get; set; }
 
         public int ServiceId { get; set; }
         public Service? Service { get; set; }
