@@ -1,4 +1,5 @@
-﻿using HairSaloon.Models;
+﻿
+using HairSaloon.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
