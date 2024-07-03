@@ -13,11 +13,14 @@ namespace HairSaloon.Models
         public string Time { get; set; }
         public bool WashHair { get; set; }
         public string State { get; set; }
-        public int? Rate { get; set; }
-        public string? Comment { get; set; }
+        
+
+        public Rate? Rate { get; set; }
 
         public int ServiceId { get; set; }
         public Service? Service { get; set; }
+        public int AddServiceId { get; set; }
+        public AddictService? AddictService { get; set; }
         public int HumanId { get; set; }
         public Human? Human { get; set; }
         public int EmployeeId { get; set; }

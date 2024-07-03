@@ -16,7 +16,7 @@
         <DockPanel Margin="0 0 0 70" LastChildFill="True" VerticalAlignment="Bottom">
 
             <TextBlock Text="Фильтрация по состоянию: " Margin="0 0 5 0"/>
-            <ComboBox x:Name="Complete" SelectedIndex="2" SelectionChanged="Complete_Changed">
+            <ComboBox x:Name="Complete" SelectedIndex="3" SelectionChanged="Complete_Changed">
                 <ComboBoxItem Content="Выполнено"></ComboBoxItem>
                 <ComboBoxItem Content="Отправлено"></ComboBoxItem>
                 <ComboBoxItem Content="Записано"></ComboBoxItem>
@@ -24,40 +24,55 @@
 
             </ComboBox>
         </DockPanel>
-        <ListBox x:Name="ordersList"  ItemsSource="{Binding}" Margin="0 40 0 100">
+        <ListBox x:Name="ordersList"  ItemsSource="{Binding}" Margin="0 40 0 100" SelectionChanged="ordersList_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="local:Order">
                     <StackPanel>
                         <TextBlock >
-                         <Run Text="Дата:" />
-                         <Run Text="{Binding Date, StringFormat=dd/MM/yyyy}" />
+                             <Run Text="Дата:" />
+                             <Run Text="{Binding Date, StringFormat=dd/MM/yyyy}" />
                         </TextBlock>
                         <TextBlock >
-                         <Run Text="Время:" />
-                         <Run Text="{Binding Time}" />
+                             <Run Text="Время:" />
+                             <Run Text="{Binding Time}" />
                         </TextBlock>
                         <TextBlock  >
-                         <Run Text="Мастер: " />
-                         <Run Text="{Binding Employee.Human.FirstName}"  />
-                         <Run Text="{Binding Employee.Human.LastName}"  />
+                             <Run Text="Мастер: " />
+                             <Run Text="{Binding Employee.Human.FirstName}"  />
+                             <Run Text="{Binding Employee.Human.LastName}"  />
                         </TextBlock>
                         <TextBlock  >
-                         <Run Text="Клиент:" />
-                         <Run Text="{Binding Human.FirstName}"  />
-                         <Run Text="{Binding Human.LastName}"  />
+                             <Run Text="Клиент:" />
+                             <Run Text="{Binding Human.FirstName}"  />
+                             <Run Text="{Binding Human.LastName}"  />
                         </TextBlock>
 
                         <TextBlock  >
-                         <Run Text="Услуга:" />
-                         <Run Text="{Binding Service.Title}"  />
+                             <Run Text="Услуга:" />
+                             <Run Text="{Binding Service.Title}"  />
+                        </TextBlock>
+                        <TextBlock  >
+                            <Run Text="Дополнительная услуга:" />
+                            <Run Text="{Binding AddictService.Title}"  />
                         </TextBlock>
                         <CheckBox IsEnabled="False" IsChecked="{Binding WashHair}" Content="Мытье головы: "/>
                         <TextBlock  >
-                         <Run Text="Стоимость:" />
-                         <Run Text="{Binding Service.Price}"  />
-                         <Run Text="Рублей" />
+                            <Run Text="Стоимость:" />
+                            <Run Text="{Binding Service.Price}"  />
+                            <Run Text="Рублей" />
                         </TextBlock>
-                        <CheckBox IsEnabled="False" IsChecked="{Binding State}" Content="Состояние: "/>
+                        <TextBlock  >
+    <Run Text="Состояние: " />
+    <Run Text="{Binding State}"  />
+                        </TextBlock>
+                        <TextBlock  >
+    <Run Text="Рейтинг: " />
+    <Run Text="{Binding Rate.Stars}"  />
+                        </TextBlock>
+                        <TextBlock  >
+    <Run Text="Комментарий: " />
+    <Run Text="{Binding Rate.Comment}"  />
+                        </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

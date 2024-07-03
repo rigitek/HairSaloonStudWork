@@ -26,6 +26,7 @@ namespace HairSaloon.Pages
         List<Human> humans;
         List<Employee> employees;
         List<Service> services;
+        List<AddictService> addictServices;
         public Order Order { get; set; }
         //через конструктор получаем объект 
         public AddOrderWindow(Order order)
@@ -42,11 +43,14 @@ namespace HairSaloon.Pages
             employeesComboBox.SelectedIndex = Order.Employee.Id - 1;
             humansComboBox.SelectedIndex = Order.Human.Id-1;
             servicesComboBox.SelectedIndex = Order.Service.Id - 1;
+            addictServicesComboBox.SelectedIndex = Order.AddictService.Id - 1;
+            stateComboBox.Text= Order.State;
 
             //выключаем возможность взаимодействия с комбобокс
             humansComboBox.IsEnabled = false;
             employeesComboBox.IsEnabled = false;
             servicesComboBox.IsEnabled = false;
+            addictServicesComboBox.IsEnabled = false;
 
             //устанавливаем объект в качестве контекста данных
             DataContext = Order;
@@ -59,8 +63,9 @@ namespace HairSaloon.Pages
 
             //меняем заголовок окна
             TitleName.Text = "Новая заявка";
-            
-            
+
+            sliderRate.IsEnabled = false;
+            Comment.IsEnabled = false;
         }
 
         private void AddEmployeeWindow_Loaded(object sender, RoutedEventArgs e)
@@ -69,16 +74,21 @@ namespace HairSaloon.Pages
             db.Humans.Load();
             db.Employees.Load();
             db.Services.Load();
+            db.Rates.Load();
+            db.AddictServices.Load();
 
             //присваиваем данные из бд
             humans = db.Humans.ToList();
             employees = db.Employees.ToList();
             services = db.Services.ToList();
+            addictServices = db.AddictServices.ToList();
+            
 
             //передаем данные для отображения в комбобокс
             humansComboBox.ItemsSource = humans;
             employeesComboBox.ItemsSource = employees;
             servicesComboBox.ItemsSource = services;
+            addictServicesComboBox.ItemsSource = addictServices;
         }
 
         void Accept_Click(object sender, RoutedEventArgs e)
@@ -91,11 +101,15 @@ namespace HairSaloon.Pages
                 Human human = humansComboBox.SelectedItem as Human;
                 Employee employee = employeesComboBox.SelectedItem as Employee;
                 Service service = servicesComboBox.SelectedItem as Service;
-               
+                AddictService addictService = addictServicesComboBox.SelectedItem as AddictService;
+
                 //проверяем что все объекты получены
                 if (human == null) return;
                 if (employee == null) return;
                 if (service == null) return;
+                if (addictService == null) return;
+
+
 
                 //создаем новый обьект и заполняем данными введенными в окне
                 Order order= new Order
@@ -106,13 +120,15 @@ namespace HairSaloon.Pages
                     State= stateComboBox.Text,
                     Human = human,
                     Employee=employee,
-                    Service=service
+                    Service=service,
+                    AddictService=addictService
                 };
 
                 //прикрепляем объекты к текущему контексту данных
                 db.Humans.Attach(human);
                 db.Employees.Attach(employee);
                 db.Services.Attach(service);
+                db.AddictServices.Attach(addictService);
                 //добавляем новый объект в бд
                 db.Orders.Add(order);
                 //сохраняем изменения в бд

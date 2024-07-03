@@ -14,12 +14,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HairSaloon.Pages.HumanPages
+namespace HairSaloon.Pages.EmployeePages
 {
     /// <summary>
-    /// Логика взаимодействия для AddOrderWindow.xaml
+    /// Логика взаимодействия для EditOrderWindow.xaml
     /// </summary>
-    public partial class AddOrderWindow : Window
+    public partial class EditOrderWindow : Window
     {
         HairSaloonContext db = new HairSaloonContext();
 
@@ -29,7 +29,7 @@ namespace HairSaloon.Pages.HumanPages
         List<AddictService> addictServices;
         public Order Order { get; set; }
         //через конструктор получаем объект 
-        public AddOrderWindow(Order order)
+        public EditOrderWindow(Order order)
         {
             InitializeComponent();
             this.Loaded += AddEmployeeWindow_Loaded;
@@ -41,26 +41,24 @@ namespace HairSaloon.Pages.HumanPages
 
             //присваиваем комбобоксу записанное в бд значение для отображения
             employeesComboBox.SelectedIndex = Order.Employee.Id - 1;
-           // humansComboBox.SelectedIndex = Order.Human.Id - 1;
+            humansComboBox.SelectedIndex = Order.Human.Id - 1;
             servicesComboBox.SelectedIndex = Order.Service.Id - 1;
             addictServicesComboBox.SelectedIndex = Order.AddictService.Id - 1;
             stateComboBox.Text = Order.State;
 
             //выключаем возможность взаимодействия с комбобокс
-           // humansComboBox.IsEnabled = false;
+            humansComboBox.IsEnabled = false;
             employeesComboBox.IsEnabled = false;
             servicesComboBox.IsEnabled = false;
             addictServicesComboBox.IsEnabled = false;
-            Date.IsEnabled = false;
-            TimeBox.IsEnabled = false;
-            WashHair.IsEnabled = false;
-            stateComboBox.IsEnabled = false;
+            sliderRate.IsEnabled = false;
+            Comment.IsEnabled = false;
 
             //устанавливаем объект в качестве контекста данных
             DataContext = Order;
         }
 
-        public AddOrderWindow()
+        public EditOrderWindow()
         {
             InitializeComponent();
             this.Loaded += AddEmployeeWindow_Loaded;
@@ -68,13 +66,8 @@ namespace HairSaloon.Pages.HumanPages
             //меняем заголовок окна
             TitleName.Text = "Новая заявка";
 
-           // humansComboBox.Text = GlobalVar.Human.FirstName;
-            stateComboBox.SelectedIndex = 1;
-
-            //humansComboBox.IsEnabled = false;
             sliderRate.IsEnabled = false;
             Comment.IsEnabled = false;
-            stateComboBox.IsEnabled = false;
         }
 
         private void AddEmployeeWindow_Loaded(object sender, RoutedEventArgs e)
@@ -87,14 +80,14 @@ namespace HairSaloon.Pages.HumanPages
             db.AddictServices.Load();
 
             //присваиваем данные из бд
-            //humans = db.Humans.Where(x=>x.Id>1).ToList();
-            employees = db.Employees.Where(x => x.Human.Id > 1).ToList();
+            humans = db.Humans.ToList();
+            employees = db.Employees.ToList();
             services = db.Services.ToList();
             addictServices = db.AddictServices.ToList();
 
 
             //передаем данные для отображения в комбобокс
-            //humansComboBox.ItemsSource = humans;
+            humansComboBox.ItemsSource = humans;
             employeesComboBox.ItemsSource = employees;
             servicesComboBox.ItemsSource = services;
             addictServicesComboBox.ItemsSource = addictServices;
@@ -107,16 +100,18 @@ namespace HairSaloon.Pages.HumanPages
             else
             {
                 //получаем выбранные объекты
-                Human human = db.Humans.Where(x=>x.Id==GlobalVar.Human.Id).FirstOrDefault();
+                Human human = humansComboBox.SelectedItem as Human;
                 Employee employee = employeesComboBox.SelectedItem as Employee;
                 Service service = servicesComboBox.SelectedItem as Service;
                 AddictService addictService = addictServicesComboBox.SelectedItem as AddictService;
 
                 //проверяем что все объекты получены
-                //if (human == null) return;
+                if (human == null) return;
                 if (employee == null) return;
                 if (service == null) return;
                 if (addictService == null) return;
+
+
 
                 //создаем новый обьект и заполняем данными введенными в окне
                 Order order = new Order
@@ -132,7 +127,7 @@ namespace HairSaloon.Pages.HumanPages
                 };
 
                 //прикрепляем объекты к текущему контексту данных
-               // db.Humans.Attach(human);
+                db.Humans.Attach(human);
                 db.Employees.Attach(employee);
                 db.Services.Attach(service);
                 db.AddictServices.Attach(addictService);

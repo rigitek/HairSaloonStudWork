@@ -48,6 +48,16 @@ namespace HairSaloon.Pages.HumanPages
             serviceWindow.Show();
         }
 
+        private void AddictService_Click(object sender, RoutedEventArgs e)
+        {
+            //для открытия окна создаем его объект
+            AddictServiceWindow addictServiceWindow = new AddictServiceWindow();
+            //закрывает уже открытое окно
+            this.Close();
+            //открывает новое окно
+            addictServiceWindow.Show();
+        }
+
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             //для открытия окна создаем его объект

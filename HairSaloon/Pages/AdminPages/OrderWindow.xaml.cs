@@ -1,8 +1,10 @@
 ﻿using HairSaloon.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HairSaloon.Pages
 {
@@ -37,6 +40,8 @@ namespace HairSaloon.Pages
             db.Employees.Load();
             db.Services.Load();
             db.Orders.Load();
+            db.AddictServices.Load();
+            db.Rates.Load();
             // устанавливаем данные в качестве контекста
             DataContext = db.Orders.Local.ToObservableCollection();
         }
@@ -90,8 +95,10 @@ namespace HairSaloon.Pages
                 WashHair=order.WashHair,
                 State=order.State,
                 Service=order.Service,
+                AddictService=order.AddictService,
                 Human=order.Human,
-                Employee=order.Employee
+                Employee=order.Employee,
+                Rate=order.Rate
             });
 
 
@@ -102,15 +109,28 @@ namespace HairSaloon.Pages
                 //если объект найдет
                 if (order != null)
                 {
+                    
+                    Rate rate = new Rate
+                    {
+                        Stars=(int)AddOrderWindow.sliderRate.Value,
+                        Comment=AddOrderWindow.Comment.Text
+                    };
+
                     order.Date = AddOrderWindow.Order.Date;
                     order.Time = AddOrderWindow.Order.Time;
                     order.WashHair = AddOrderWindow.Order.WashHair;
-                    order.State = AddOrderWindow.Order.State;
+                    order.State = AddOrderWindow.stateComboBox.Text;
+                    order.Rate = rate;
 
+                    db.Rates.Add(rate);
                     //сохраняем изменения в бд
                     db.SaveChanges();
+
+
                     //обновляем список 
+                    db.Orders.Load();
                     ordersList.Items.Refresh();
+                    
                 }
             }
         }

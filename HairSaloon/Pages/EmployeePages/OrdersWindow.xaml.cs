@@ -38,8 +38,12 @@ namespace HairSaloon.Pages.EmployeePages
             db.Employees.Load();
             db.Services.Load();
             db.Orders.Load();
+            db.AddictServices.Load();
+            db.Rates.Load();
             // устанавливаем данные в качестве контекста
-            DataContext = db.Orders.Local.ToObservableCollection();
+            DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.Employee.Id == GlobalVar.Human.Employee.Id);
+
+            EditButton.IsEnabled = false;
         }
 
         private void Complete_Changed(object sender, RoutedEventArgs e)
@@ -47,30 +51,30 @@ namespace HairSaloon.Pages.EmployeePages
             // вывод по состоянию выполненные
             if (Complete.SelectedIndex == 0)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Выполнено");
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Выполнено" && x.Employee.Id == GlobalVar.Human.Employee.Id);
             }
             // вывод по состоянию невыполненные
             if (Complete.SelectedIndex == 1)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Отправлено");
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Отправлено" && x.Employee.Id == GlobalVar.Human.Employee.Id);
             }
             if (Complete.SelectedIndex == 2)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Записано");
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Записано" && x.Employee.Id == GlobalVar.Human.Employee.Id);
             }
             // вывод по состоянию все
             if (Complete.SelectedIndex == 3)
             {
-                DataContext = db.Orders.Local.ToObservableCollection();
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.Employee.Id == GlobalVar.Human.Employee.Id) ;
             }
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             //создаем обьект нового окна с созданием нового обьекта для записи в бд
-            AddOrderWindow AddOrderWindow = new AddOrderWindow();
+            EditOrderWindow EditOrderWindow = new EditOrderWindow();
             //если открытое окно завершилось с true
-            if (AddOrderWindow.ShowDialog() == true)
+            if (EditOrderWindow.ShowDialog() == true)
             {
                 db.Orders.Load();
             }
@@ -83,7 +87,7 @@ namespace HairSaloon.Pages.EmployeePages
             if (order is null) return;
 
             //передача данных выбранного обьекта в окно
-            AddOrderWindow AddOrderWindow = new AddOrderWindow(new Order
+            EditOrderWindow EditOrderWindow = new EditOrderWindow(new Order
             {
                 Id = order.Id,
                 Date = order.Date,
@@ -91,51 +95,48 @@ namespace HairSaloon.Pages.EmployeePages
                 WashHair = order.WashHair,
                 State = order.State,
                 Service = order.Service,
+                AddictService = order.AddictService,
                 Human = order.Human,
-                Employee = order.Employee
+                Employee = order.Employee,
+                Rate = order.Rate
             });
 
 
-            if (AddOrderWindow.ShowDialog() == true)
+            if (EditOrderWindow.ShowDialog() == true)
             {
                 // получаем измененный объект
-                order = db.Orders.Find(AddOrderWindow.Order.Id);
+                order = db.Orders.Find(EditOrderWindow.Order.Id);
                 //если объект найдет
                 if (order != null)
                 {
-                    order.Date = AddOrderWindow.Order.Date;
-                    order.Time = AddOrderWindow.Order.Time;
-                    order.WashHair = AddOrderWindow.Order.WashHair;
-                    order.State = AddOrderWindow.Order.State;
+                    order.Date = EditOrderWindow.Order.Date;
+                    order.Time = EditOrderWindow.Order.Time;
+                    order.WashHair = EditOrderWindow.Order.WashHair;
+                    order.State = EditOrderWindow.stateComboBox.Text;
 
                     //сохраняем изменения в бд
                     db.SaveChanges();
+
                     //обновляем список 
+                    db.Orders.Load();
                     ordersList.Items.Refresh();
                 }
             }
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
-        {
-            // получаем выделенный объект
-            Order? order = ordersList.SelectedItem as Order;
-            // если ни одного объекта не выделено, выходим
-            if (order is null) return;
-            //удаляем выделенный обьект из бд
-            db.Orders.Remove(order);
-            // сохраняем изменения в бд
-            db.SaveChanges();
-        }
-
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             //для открытия окна создаем его объект
-            AdminMainMenuWindow adminMainMenuWindow = new AdminMainMenuWindow();
+            EmployeeMainMenuWindow employeeMainMenuWindow = new EmployeeMainMenuWindow();
             //закрывает уже открытое окно
             this.Close();
             //открываем новое окно
-            adminMainMenuWindow.Show();
+            employeeMainMenuWindow.Show();
+        }
+
+        private void ordersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EditButton.IsEnabled = true;
         }
     }
 }

@@ -10,5 +10,7 @@ namespace HairSaloon
      public static class GlobalVar
     {
         public static Human Human = new Human();
+
+        public static string ToString() => $"{Human.FirstName} {Human.LastName} \n{Human.PhoneNumber}";
     }
 }

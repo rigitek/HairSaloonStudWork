@@ -37,8 +37,10 @@ namespace HairSaloon.Pages.HumanPages
             db.Employees.Load();
             db.Services.Load();
             db.Orders.Load();
+            db.AddictServices.Load();
+            db.Rates.Load();
             // устанавливаем данные в качестве контекста
-            DataContext = db.Orders.Local.ToObservableCollection().Where(x=>x.Human==GlobalVar.Human);
+            DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.Human.Id == GlobalVar.Human.Id);
         }
 
         private void Complete_Changed(object sender, RoutedEventArgs e)
@@ -46,21 +48,21 @@ namespace HairSaloon.Pages.HumanPages
             // вывод по состоянию выполненные
             if (Complete.SelectedIndex == 0)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Выполнено" && x.Human == GlobalVar.Human);
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Выполнено" && x.Human.Id == GlobalVar.Human.Id);
             }
             // вывод по состоянию невыполненные
             if (Complete.SelectedIndex == 1)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Отправлено" && x.Human == GlobalVar.Human);
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Отправлено" && x.Human.Id == GlobalVar.Human.Id);
             }
             if (Complete.SelectedIndex == 2)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Записано" && x.Human == GlobalVar.Human);
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.State == "Записано" && x.Human.Id == GlobalVar.Human.Id);
             }
             // вывод по состоянию все
             if (Complete.SelectedIndex == 3)
             {
-                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.Human == GlobalVar.Human);
+                DataContext = db.Orders.Local.ToObservableCollection().Where(x => x.Human.Id == GlobalVar.Human.Id);
             }
         }
 
@@ -90,8 +92,10 @@ namespace HairSaloon.Pages.HumanPages
                 WashHair = order.WashHair,
                 State = order.State,
                 Service = order.Service,
+                AddictService = order.AddictService,
                 Human = order.Human,
-                Employee = order.Employee
+                Employee = order.Employee,
+                Rate = order.Rate
             });
 
 
@@ -102,29 +106,41 @@ namespace HairSaloon.Pages.HumanPages
                 //если объект найдет
                 if (order != null)
                 {
+                    Rate rate = new Rate
+                    {
+                        Stars = (int)AddOrderWindow.sliderRate.Value,
+                        Comment = AddOrderWindow.Comment.Text
+                    };
+
                     order.Date = AddOrderWindow.Order.Date;
                     order.Time = AddOrderWindow.Order.Time;
                     order.WashHair = AddOrderWindow.Order.WashHair;
-                    order.State = AddOrderWindow.Order.State;
+                    order.State = AddOrderWindow.stateComboBox.Text;
+                    order.Rate = rate;
 
+                    db.Rates.Add(rate);
                     //сохраняем изменения в бд
                     db.SaveChanges();
+
+
                     //обновляем список 
+                    db.Orders.Load();
                     ordersList.Items.Refresh();
+
                 }
             }
         }
 
-      
+
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             //для открытия окна создаем его объект
-            AdminMainMenuWindow adminMainMenuWindow = new AdminMainMenuWindow();
+            HumanMainMenuWindow humanMainMenuWindow = new HumanMainMenuWindow();
             //закрывает уже открытое окно
             this.Close();
             //открываем новое окно
-            adminMainMenuWindow.Show();
+            humanMainMenuWindow.Show();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HairSaloon.Models;
+using HairSaloon.Pages.AdminPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,16 @@ namespace HairSaloon.Pages
             this.Close();
             //открывает новое окно
             serviceWindow.Show();
+        }
+
+        private void AddictService_Click(object sender, RoutedEventArgs e)
+        {
+            //для открытия окна создаем его объект
+            AddictServiceWindow addictServiceWindow = new AddictServiceWindow();
+            //закрывает уже открытое окно
+            this.Close();
+            //открывает новое окно
+            addictServiceWindow.Show();
         }
 
         //переход на страницу сотрудников

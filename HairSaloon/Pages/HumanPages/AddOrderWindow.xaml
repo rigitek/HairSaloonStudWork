@@ -37,33 +37,32 @@
                 <ComboBoxItem>19:30</ComboBoxItem>
                 <ComboBoxItem>20:00</ComboBoxItem>
             </ComboBox>
-            <TextBlock Text="Клиент"/>
-            <ComboBox Margin="0 0 0 5" x:Name="humansComboBox" SelectedItem="{Binding Human}"/>
+           
             <TextBlock Text="Сотрудник"/>
             <ComboBox Margin="0 0 0 5" x:Name="employeesComboBox" SelectedItem="{Binding Employee}"/>
             <TextBlock Text="Услуга"/>
             <ComboBox Margin="0 0 0 5" x:Name="servicesComboBox" SelectedItem="{Binding Service}"/>
-
-
+            <TextBlock Text="Дополнительные услуги"/>
+            <ComboBox Margin="0 0 0 5" x:Name="addictServicesComboBox" SelectedItem="{Binding AddictService}"/>
 
             <CheckBox x:Name="WashHair" Margin="0 0 0 5" IsChecked="{Binding WashHair}" Content="Мытье головы"/>
 
             <TextBlock Text="Состояние"/>
-            <ComboBox Margin="0 0 0 5" x:Name="stateComboBox" SelectedItem="{Binding State}">
+            <ComboBox Margin="0 0 0 5" x:Name="stateComboBox">
                 <ComboBoxItem Content="Выполнено"></ComboBoxItem>
                 <ComboBoxItem Content="Отправлено"></ComboBoxItem>
                 <ComboBoxItem Content="Записано"></ComboBoxItem>
 
             </ComboBox>
             <TextBlock Text="Оценка"/>
-            <Slider Value="{Binding Rate}" 
+            <Slider Value="{Binding Rate.Stars}" 
                     Minimum="1"
                     Maximum="5" 
                     
                     TickPlacement="BottomRight" 
                     x:Name="sliderRate"  />
             <TextBlock Text="Отзыв"/>
-            <TextBox  TextWrapping="Wrap" Margin="0 0 0 5" x:Name="Comment" Text="{Binding Comment}"/>
+            <TextBox  TextWrapping="Wrap" Margin="0 0 0 5" x:Name="Comment" Text="{Binding Rate.Comment}"/>
 
 
 
